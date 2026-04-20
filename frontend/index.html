@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maths Instruments</title>
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div>
+        <h1>🧮 Maths Instruments</h1>
+        <p>Математический инструментарий · 5–7 класс</p>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Меню">☰</button>
+    </div>
+  </header>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <button class="tab-btn active" data-tab="proportion" draggable="true"><span class="ti">⚖️</span><span class="tl">Пропорция</span></button>
+    <button class="tab-btn" data-tab="geometry" draggable="true"><span class="ti">🔷</span><span class="tl">Геометрия</span></button>
+    <button class="tab-btn" data-tab="fraction" draggable="true"><span class="ti">½</span><span class="tl">Дроби</span></button>
+    <button class="tab-btn" data-tab="percent" draggable="true"><span class="ti">%</span><span class="tl">Проценты</span></button>
+    <button class="tab-btn" data-tab="gcdlcm" draggable="true"><span class="ti">🔢</span><span class="tl">НОД / НОК</span></button>
+    <button class="tab-btn" data-tab="power" draggable="true"><span class="ti">⚡</span><span class="tl">Степени и корни</span></button>
+    <button class="tab-btn" data-tab="stats" draggable="true"><span class="ti">📊</span><span class="tl">Статистика</span></button>
+    <button class="tab-btn" data-tab="units" draggable="true"><span class="ti">📐</span><span class="tl">Единицы</span></button>
+    <button class="tab-btn" data-tab="temp" draggable="true"><span class="ti">🌡️</span><span class="tl">Температура</span></button>
+    <button class="tab-btn" data-tab="speed" draggable="true"><span class="ti">🚀</span><span class="tl">Скорость</span></button>
+    <button class="tab-btn" data-tab="divisors" draggable="true"><span class="ti">÷</span><span class="tl">Делители</span></button>
+    <button class="tab-btn" data-tab="factorial" draggable="true"><span class="ti">!</span><span class="tl">Факториал</span></button>
+    <button class="tab-btn" data-tab="formulas" draggable="true"><span class="ti">📚</span><span class="tl">Формулы</span></button>
+  </nav>
+
+  <main>
+
+    <!-- ══════════ Пропорция ══════════ -->
+    <section id="tab-proportion" class="tab active">
+      <h2>Пропорция</h2>
+      <p class="section-desc">Равенство двух отношений a/b = c/d. Неизвестное d находится как d = b·c / a.</p>
+      <p class="hint">a / b = c / d → найти d</p>
+      <div class="inputs">
+        <label>a <input id="pr-a" type="number" value="4" /></label>
+        <label>b <input id="pr-b" type="number" value="6" /></label>
+        <label>c <input id="pr-c" type="number" value="9" /></label>
+      </div>
+      <button onclick="solveProportion()">Найти d</button>
+      <div id="pr-result" class="result hidden"></div>
+    </section>
+
+    <!-- ══════════ Геометрия ══════════ -->
+    <section id="tab-geometry" class="tab">
+      <h2>Геометрия</h2>
+      <p class="section-desc">Вычисление площадей, периметров и объёмов основных плоских и объёмных фигур.</p>
+      <div class="geo-tabs">
+        <button class="geo-btn active" data-geo="pythagoras">Пифагор</button>
+        <button class="geo-btn" data-geo="circle">Круг</button>
+        <button class="geo-btn" data-geo="rectangle">Прямоугольник</button>
+        <button class="geo-btn" data-geo="square">Квадрат</button>
+        <button class="geo-btn" data-geo="triangle">Треугольник</button>
+        <button class="geo-btn" data-geo="trapezoid">Трапеция</button>
+        <button class="geo-btn" data-geo="parallelogram">Параллелограмм</button>
+        <button class="geo-btn" data-geo="cylinder">Цилиндр</button>
+        <button class="geo-btn" data-geo="cube">Куб</button>
+        <button class="geo-btn" data-geo="box">Параллелепипед</button>
+        <button class="geo-btn" data-geo="cone">Конус</button>
+        <button class="geo-btn" data-geo="pyramid">Пирамида</button>
+      </div>
+
+      <!-- Пифагор -->
+      <div id="geo-pythagoras" class="geo-panel active">
+        <p class="section-desc">В прямоугольном треугольнике: a² + b² = c². Введи два значения — найдёт третье.</p>
+        <p class="hint">Введи два значения — третье найдётся</p>
+        <div class="inputs">
+          <label>катет a <input id="py-a" type="number" placeholder="напр. 3" /></label>
+          <label>катет b <input id="py-b" type="number" placeholder="напр. 4" /></label>
+          <label>гипотенуза c <input id="py-c" type="number" placeholder="или оставь пустым" /></label>
+        </div>
+        <button onclick="solvePythagoras()">Найти</button>
+        <div id="py-result" class="result hidden"></div>
+      </div>
+
+      <!-- Круг -->
+      <div id="geo-circle" class="geo-panel">
+        <p class="section-desc">Площадь S = πr² и длина окружности C = 2πr через радиус.</p>
+        <p class="hint">S = πr² · C = 2πr</p>
+        <div class="inputs">
+          <label>радиус r <input id="ci-r" type="number" value="5" /></label>
+        </div>
+        <button onclick="solveCircle()">Считать</button>
+        <div id="ci-result" class="result hidden"></div>
+      </div>
+
+      <!-- Прямоугольник -->
+      <div id="geo-rectangle" class="geo-panel">
+        <p class="section-desc">Площадь — произведение сторон, периметр — удвоенная сумма сторон a и b.</p>
+        <p class="hint">S = a·b · P = 2(a+b)</p>
+        <div class="inputs">
+          <label>сторона a <input id="re-a" type="number" value="4" /></label>
+          <label>сторона b <input id="re-b" type="number" value="6" /></label>
+        </div>
+        <button onclick="solveRectangle()">Считать</button>
+        <div id="re-result" class="result hidden"></div>
+      </div>
+
+      <!-- Квадрат -->
+      <div id="geo-square" class="geo-panel">
+        <p class="section-desc">Все стороны равны. Площадь S = a², периметр P = 4a.</p>
+        <p class="hint">S = a² · P = 4a</p>
+        <div class="inputs">
+          <label>сторона a <input id="sq-a" type="number" value="5" /></label>
+        </div>
+        <button onclick="solveSquare()">Считать</button>
+        <div id="sq-result" class="result hidden"></div>
+      </div>
+
+      <!-- Треугольник -->
+      <div id="geo-triangle" class="geo-panel">
+        <p class="section-desc">Площадь S = ½ · a · h — половина произведения основания на высоту.</p>
+        <p class="hint">S = (a · h) / 2</p>
+        <div class="inputs">
+          <label>основание a <input id="tr-a" type="number" value="6" /></label>
+          <label>высота h <input id="tr-h" type="number" value="4" /></label>
+        </div>
+        <button onclick="solveTriangle()">Считать</button>
+        <div id="tr-result" class="result hidden"></div>
+      </div>
+
+      <!-- Трапеция -->
+      <div id="geo-trapezoid" class="geo-panel">
+        <p class="section-desc">Площадь S = ½ · (a + b) · h через два основания и высоту.</p>
+        <p class="hint">S = (a + b) / 2 · h</p>
+        <div class="inputs">
+          <label>основание a <input id="tp-a" type="number" value="8" /></label>
+          <label>основание b <input id="tp-b" type="number" value="5" /></label>
+          <label>высота h <input id="tp-h" type="number" value="4" /></label>
+        </div>
+        <button onclick="solveTrapezoid()">Считать</button>
+        <div id="tp-result" class="result hidden"></div>
+      </div>
+
+      <!-- Параллелограмм -->
+      <div id="geo-parallelogram" class="geo-panel">
+        <p class="section-desc">Площадь S = a · h — основание умножить на высоту.</p>
+        <p class="hint">S = a · h</p>
+        <div class="inputs">
+          <label>основание a <input id="pg-a" type="number" value="7" /></label>
+          <label>высота h <input id="pg-h" type="number" value="3" /></label>
+        </div>
+        <button onclick="solveParallelogram()">Считать</button>
+        <div id="pg-result" class="result hidden"></div>
+      </div>
+
+      <!-- Цилиндр -->
+      <div id="geo-cylinder" class="geo-panel">
+        <p class="section-desc">Объём V = πr²h и полная площадь поверхности через радиус и высоту.</p>
+        <p class="hint">V = πr²h</p>
+        <div class="inputs">
+          <label>радиус r <input id="cy-r" type="number" value="3" /></label>
+          <label>высота h <input id="cy-h" type="number" value="5" /></label>
+        </div>
+        <button onclick="solveCylinder()">Считать</button>
+        <div id="cy-result" class="result hidden"></div>
+      </div>
+
+      <!-- Куб -->
+      <div id="geo-cube" class="geo-panel">
+        <p class="section-desc">Все рёбра равны. Объём V = a³, площадь поверхности S = 6a².</p>
+        <p class="hint">V = a³ · S = 6a²</p>
+        <div class="inputs">
+          <label>ребро a <input id="cb-a" type="number" value="3" /></label>
+        </div>
+        <button onclick="solveCube()">Считать</button>
+        <div id="cb-result" class="result hidden"></div>
+      </div>
+
+      <!-- Параллелепипед -->
+      <div id="geo-box" class="geo-panel">
+        <p class="section-desc">Объём V = a·b·c, полная поверхность — сумма площадей шести прямоугольников.</p>
+        <p class="hint">V = a·b·c</p>
+        <div class="inputs">
+          <label>a <input id="bx-a" type="number" value="3" /></label>
+          <label>b <input id="bx-b" type="number" value="4" /></label>
+          <label>c <input id="bx-c" type="number" value="5" /></label>
+        </div>
+        <button onclick="solveBox()">Считать</button>
+        <div id="bx-result" class="result hidden"></div>
+      </div>
+
+      <!-- Конус -->
+      <div id="geo-cone" class="geo-panel">
+        <p class="section-desc">Объём V = ⅓πr²h, поверхность и образующая l = √(r² + h²).</p>
+        <p class="hint">V = ⅓·πr²·h</p>
+        <div class="inputs">
+          <label>радиус r <input id="cn-r" type="number" value="3" /></label>
+          <label>высота h <input id="cn-h" type="number" value="4" /></label>
+        </div>
+        <button onclick="solveCone()">Считать</button>
+        <div id="cn-result" class="result hidden"></div>
+      </div>
+
+      <!-- Пирамида -->
+      <div id="geo-pyramid" class="geo-panel">
+        <p class="section-desc">Объём V = ⅓·S·h — треть площади основания умножить на высоту.</p>
+        <p class="hint">V = ⅓·S·h</p>
+        <div class="inputs">
+          <label>площадь основания S <input id="pm-s" type="number" value="16" /></label>
+          <label>высота h <input id="pm-h" type="number" value="6" /></label>
+        </div>
+        <button onclick="solvePyramid()">Считать</button>
+        <div id="pm-result" class="result hidden"></div>
+      </div>
+    </section>
+
+    <!-- ══════════ Дроби ══════════ -->
+    <section id="tab-fraction" class="tab">
+      <h2>Дроби</h2>
+      <p class="section-desc">Сложение, вычитание, умножение и деление обыкновенных дробей. Результат сокращается автоматически.</p>
+      <div class="inputs fraction-row">
+        <div class="fraction-input">
+          <input id="f-n1" type="number" value="1" />
+          <hr />
+          <input id="f-d1" type="number" value="2" />
+        </div>
+        <select id="f-op">
+          <option>+</option>
+          <option>-</option>
+          <option>*</option>
+          <option>/</option>
+        </select>
+        <div class="fraction-input">
+          <input id="f-n2" type="number" value="1" />
+          <hr />
+          <input id="f-d2" type="number" value="3" />
+        </div>
+      </div>
+      <button onclick="solveFraction()">Считать</button>
+      <div id="f-result" class="result hidden"></div>
+    </section>
+
+    <!-- ══════════ Проценты ══════════ -->
+    <section id="tab-percent" class="tab">
+      <h2>Проценты</h2>
+      <p class="section-desc">Найди процент от числа или вычисли, сколько процентов одно число составляет от другого.</p>
+      <div class="percent-tabs">
+        <button class="pct-btn active" data-pct="of">Найти % от числа</button>
+        <button class="pct-btn" data-pct="what">Сколько % составляет</button>
+      </div>
+
+      <div id="pct-of" class="pct-panel active">
+        <p class="hint">Какая часть — это X% от Y?</p>
+        <div class="inputs">
+          <label>% <input id="po-pct" type="number" value="25" /></label>
+          <label>от числа <input id="po-total" type="number" value="200" /></label>
+        </div>
+        <button onclick="solvePercentOf()">Считать</button>
+        <div id="po-result" class="result hidden"></div>
+      </div>
+
+      <div id="pct-what" class="pct-panel">
+        <p class="hint">Сколько % число X от числа Y?</p>
+        <div class="inputs">
+          <label>число X <input id="pw-val" type="number" value="45" /></label>
+          <label>от числа Y <input id="pw-total" type="number" value="180" /></label>
+        </div>
+        <button onclick="solvePercent()">Считать</button>
+        <div id="pw-result" class="result hidden"></div>
+      </div>
+    </section>
+
+    <!-- ══════════ НОД / НОК ══════════ -->
+    <section id="tab-gcdlcm" class="tab">
+      <h2>НОД и НОК</h2>
+      <p class="section-desc">НОД — наибольший общий делитель, НОК — наименьшее общее кратное нескольких чисел.</p>
+      <p class="hint">Введи числа через запятую (2 или больше)</p>
+      <div class="inputs">
+        <label>Числа <input id="gl-nums" type="text" value="48, 36" style="width:240px" /></label>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button onclick="solveGcd()">Найти НОД</button>
+        <button onclick="solveLcm()">Найти НОК</button>
+      </div>
+      <div id="gl-result" class="result hidden"></div>
+    </section>
+
+    <!-- ══════════ Степени и корни ══════════ -->
+    <section id="tab-power" class="tab">
+      <h2>Степени и корни</h2>
+      <p class="section-desc">Возведение в степень aⁿ, квадратный и кубический корни. Основа алгебры и физики.</p>
+      <div class="percent-tabs">
+        <button class="pow-btn active" data-pow="power">Степень aⁿ</button>
+        <button class="pow-btn" data-pow="sqrt">Квадратный корень</button>
+        <button class="pow-btn" data-pow="cbrt">Кубический корень</button>
+      </div>
+
+      <div id="pow-power" class="pow-panel active">
+        <p class="hint">Вычислить aⁿ</p>
+        <div class="inputs">
+          <label>основание a <input id="pw2-base" type="number" value="2" /></label>
+          <label>показатель n <input id="pw2-exp" type="number" value="10" /></label>
+        </div>
+        <button onclick="solvePower()">Считать</button>
+        <div id="pw2-result" class="result hidden"></div>
+      </div>
+
+      <div id="pow-sqrt" class="pow-panel">
+        <p class="hint">√a</p>
+        <div class="inputs">
+          <label>число a <input id="sq2-a" type="number" value="144" /></label>
+        </div>
+        <button onclick="solveSqrt()">Считать</button>
+        <div id="sq2-result" class="result hidden"></div>
+      </div>
+
+      <div id="pow-cbrt" class="pow-panel">
+        <p class="hint">∛a</p>
+        <div class="inputs">
+          <label>число a <input id="cb2-a" type="number" value="27" /></label>
+        </div>
+        <button onclick="solveCbrt()">Считать</button>
+        <div id="cb2-result" class="result hidden"></div>
+      </div>
+    </section>
+
+    <!-- ══════════ Статистика ══════════ -->
+    <section id="tab-stats" class="tab">
+      <h2>Статистика</h2>
+      <p class="section-desc">Анализ набора чисел: среднее, медиана, мода, размах, минимум и максимум.</p>
+      <p class="hint">Введи числа через запятую</p>
+      <div class="inputs">
+        <label>Числа <input id="st-nums" type="text" value="4, 8, 6, 5, 3, 2, 8, 9, 2, 5" style="width:300px" /></label>
+      </div>
+      <button onclick="solveStats()">Считать</button>
+      <div id="st-result" class="result hidden"></div>
+    </section>
+
+    <!-- ══════════ Единицы измерения ══════════ -->
+    <section id="tab-units" class="tab">
+      <h2>Перевод единиц</h2>
+      <p class="section-desc">Перевод между единицами длины, массы, времени и площади. Незаменимо в задачах на измерение.</p>
+      <div class="percent-tabs">
+        <button class="units-btn active" data-units="length">Длина</button>
+        <button class="units-btn" data-units="mass">Масса</button>
+        <button class="units-btn" data-units="time">Время</button>
+        <button class="units-btn" data-units="area">Площадь</button>
+      </div>
+
+      <div id="units-length" class="units-panel active">
+        <p class="hint">Введи значение и выбери единицы</p>
+        <div class="inputs">
+          <label>Значение <input id="un-len-val" type="number" value="1" /></label>
+          <label>Из <select id="un-len-from">
+            <option value="mm">мм</option>
+            <option value="cm">см</option>
+            <option value="dm">дм</option>
+            <option value="m" selected>м</option>
+            <option value="km">км</option>
+          </select></label>
+          <label>В <select id="un-len-to">
+            <option value="mm">мм</option>
+            <option value="cm">см</option>
+            <option value="dm">дм</option>
+            <option value="m">м</option>
+            <option value="km" selected>км</option>
+          </select></label>
+        </div>
+        <button onclick="convertLength()">Перевести</button>
+        <div id="un-len-result" class="result hidden"></div>
+      </div>
+
+      <div id="units-mass" class="units-panel">
+        <p class="hint">Перевод единиц массы</p>
+        <div class="inputs">
+          <label>Значение <input id="un-mass-val" type="number" value="1" /></label>
+          <label>Из <select id="un-mass-from">
+            <option value="mg">мг</option>
+            <option value="g">г</option>
+            <option value="kg" selected>кг</option>
+            <option value="t">т</option>
+          </select></label>
+          <label>В <select id="un-mass-to">
+            <option value="mg">мг</option>
+            <option value="g" selected>г</option>
+            <option value="kg">кг</option>
+            <option value="t">т</option>
+          </select></label>
+        </div>
+        <button onclick="convertMass()">Перевести</button>
+        <div id="un-mass-result" class="result hidden"></div>
+      </div>
+
+      <div id="units-time" class="units-panel">
+        <p class="hint">Перевод единиц времени</p>
+        <div class="inputs">
+          <label>Значение <input id="un-time-val" type="number" value="1" /></label>
+          <label>Из <select id="un-time-from">
+            <option value="sec">с</option>
+            <option value="min">мин</option>
+            <option value="hour" selected>ч</option>
+            <option value="day">сут</option>
+          </select></label>
+          <label>В <select id="un-time-to">
+            <option value="sec">с</option>
+            <option value="min" selected>мин</option>
+            <option value="hour">ч</option>
+            <option value="day">сут</option>
+          </select></label>
+        </div>
+        <button onclick="convertTime()">Перевести</button>
+        <div id="un-time-result" class="result hidden"></div>
+      </div>
+
+      <div id="units-area" class="units-panel">
+        <p class="hint">Перевод единиц площади</p>
+        <div class="inputs">
+          <label>Значение <input id="un-area-val" type="number" value="1" /></label>
+          <label>Из <select id="un-area-from">
+            <option value="cm2">см²</option>
+            <option value="dm2">дм²</option>
+            <option value="m2" selected>м²</option>
+            <option value="a">а (сотка)</option>
+            <option value="ha">га</option>
+            <option value="km2">км²</option>
+          </select></label>
+          <label>В <select id="un-area-to">
+            <option value="cm2">см²</option>
+            <option value="dm2">дм²</option>
+            <option value="m2">м²</option>
+            <option value="a">а (сотка)</option>
+            <option value="ha" selected>га</option>
+            <option value="km2">км²</option>
+          </select></label>
+        </div>
+        <button onclick="convertArea()">Перевести</button>
+        <div id="un-area-result" class="result hidden"></div>
+      </div>
+    </section>
+
+    <!-- ══════════ Температура ══════════ -->
+    <section id="tab-temp" class="tab">
+      <h2>Перевод температуры</h2>
+      <p class="section-desc">Перевод между °C, °F и Кельвином. Пригодится на уроках физики и химии.</p>
+      <p class="hint">Введи значение — получишь все сразу</p>
+      <div class="percent-tabs">
+        <button class="temp-btn active" data-temp="c">°C → всё</button>
+        <button class="temp-btn" data-temp="f">°F → всё</button>
+        <button class="temp-btn" data-temp="k">K → всё</button>
+      </div>
+      <div id="temp-c" class="temp-panel active">
+        <div class="inputs">
+          <label>°C <input id="tp-c" type="number" value="100" /></label>
+        </div>
+        <button onclick="convertTempC()">Перевести</button>
+        <div id="tp-c-result" class="result hidden"></div>
+      </div>
+      <div id="temp-f" class="temp-panel">
+        <div class="inputs">
+          <label>°F <input id="tp-f" type="number" value="212" /></label>
+        </div>
+        <button onclick="convertTempF()">Перевести</button>
+        <div id="tp-f-result" class="result hidden"></div>
+      </div>
+      <div id="temp-k" class="temp-panel">
+        <div class="inputs">
+          <label>K <input id="tp-k" type="number" value="373" /></label>
+        </div>
+        <button onclick="convertTempK()">Перевести</button>
+        <div id="tp-k-result" class="result hidden"></div>
+      </div>
+    </section>
+
+    <!-- ══════════ Скорость / Время / Расстояние ══════════ -->
+    <section id="tab-speed" class="tab">
+      <h2>Скорость · Время · Расстояние</h2>
+      <p class="section-desc">Формула v = s/t. Введи любые два значения — третье найдётся автоматически.</p>
+      <p class="hint">Заполни два поля — третье найдётся</p>
+      <div class="inputs">
+        <label>скорость v (км/ч) <input id="sp-v" type="number" placeholder="оставь пустым" /></label>
+        <label>время t (ч) <input id="sp-t" type="number" placeholder="оставь пустым" /></label>
+        <label>расстояние s (км) <input id="sp-s" type="number" placeholder="оставь пустым" /></label>
+      </div>
+      <button onclick="solveSpeed()">Найти</button>
+      <div id="sp-result" class="result hidden"></div>
+    </section>
+
+    <!-- ══════════ Делители ══════════ -->
+    <section id="tab-divisors" class="tab">
+      <h2>Делители числа</h2>
+      <p class="section-desc">Все натуральные делители числа и проверка: простое оно или составное.</p>
+      <p class="hint">Найди все делители и проверь простое ли число</p>
+      <div class="inputs">
+        <label>Число <input id="dv-n" type="number" value="36" /></label>
+      </div>
+      <button onclick="solveDivisors()">Найти делители</button>
+      <div id="dv-result" class="result hidden"></div>
+    </section>
+
+    <!-- ══════════ Факториал и комбинаторика ══════════ -->
+    <section id="tab-factorial" class="tab">
+      <h2>Факториал и комбинаторика</h2>
+      <p class="section-desc">n! — произведение всех чисел от 1 до n. Здесь также сочетания C(n,k) и размещения A(n,k).</p>
+      <div class="percent-tabs">
+        <button class="fact-btn active" data-fact="factorial">Факториал n!</button>
+        <button class="fact-btn" data-fact="combinations">Сочетания C(n,k)</button>
+        <button class="fact-btn" data-fact="permutations">Размещения A(n,k)</button>
+      </div>
+
+      <div id="fact-factorial" class="fact-panel active">
+        <p class="hint">n! = 1 × 2 × 3 × … × n</p>
+        <div class="inputs">
+          <label>n <input id="fc-n" type="number" value="5" min="0" max="20" /></label>
+        </div>
+        <button onclick="solveFactorial()">Считать</button>
+        <div id="fc-result" class="result hidden"></div>
+      </div>
+
+      <div id="fact-combinations" class="fact-panel">
+        <p class="hint">C(n,k) = n! / (k! × (n−k)!)</p>
+        <div class="inputs">
+          <label>n <input id="cn-n" type="number" value="5" /></label>
+          <label>k <input id="cn-k" type="number" value="2" /></label>
+        </div>
+        <button onclick="solveCombinations()">Считать</button>
+        <div id="cn-result" class="result hidden"></div>
+      </div>
+
+      <div id="fact-permutations" class="fact-panel">
+        <p class="hint">A(n,k) = n! / (n−k)!</p>
+        <div class="inputs">
+          <label>n <input id="an-n" type="number" value="5" /></label>
+          <label>k <input id="an-k" type="number" value="2" /></label>
+        </div>
+        <button onclick="solvePermutations()">Считать</button>
+        <div id="an-result" class="result hidden"></div>
+      </div>
+    </section>
+
+    <!-- ══════════ Библиотека формул ══════════ -->
+    <section id="tab-formulas" class="tab">
+      <h2>📚 Библиотека формул</h2>
+      <div class="formula-search">
+        <input id="fm-query" type="text" placeholder="Поиск: площадь, алгебра, скорость…" style="width:280px" />
+        <button onclick="searchFormulas()">Найти</button>
+        <button class="btn-secondary" onclick="loadAllFormulas()">Все формулы</button>
+      </div>
+      <div id="fm-result" class="formula-list"></div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/app.ts"></script>
+  </div><!-- /layout -->
+</body>
+</html>

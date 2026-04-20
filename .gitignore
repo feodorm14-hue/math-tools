@@ -1,0 +1,27 @@
+# Dependencies
+frontend/node_modules/
+
+# Build output
+frontend/dist/
+
+# Python
+backend/__pycache__/
+backend/routes/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Database (не храним в git)
+backend/db/store.db
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Env
+.env
+.env.local
