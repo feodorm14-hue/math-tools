@@ -1,5 +1,7 @@
 import katex from 'katex'
 
+const STORAGE_KEY = 'sidebar-order'
+
 // ── Тёмная тема ──────────────────────────────────────────────────────────────
 
 const THEME_KEY = 'math-theme'
@@ -731,8 +733,6 @@ initTabs('.temp-btn','temp-')
 initTabs('.fact-btn','fact-')
 
 // ── Сайдбар ───────────────────────────────────────────────────────────────────
-
-const STORAGE_KEY = 'sidebar-order'
 
 function saveSidebarOrder() {
   const order = Array.from(document.getElementById('sidebar')!.querySelectorAll<HTMLElement>('.tab-btn')).map(b=>b.dataset.tab!)
