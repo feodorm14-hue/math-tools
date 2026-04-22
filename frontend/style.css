@@ -316,22 +316,22 @@ button:active { transform: scale(0.97); }
 /* ── Dashboard ─────────────────────────────────────────────────────────────── */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 18px;
 }
 
 @media (min-width: 900px) {
   .dashboard-grid {
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
   }
 }
 
 .dash-card {
   background: var(--surface);
   border: 2px solid var(--border);
-  border-radius: 14px;
-  padding: 18px 14px 16px;
+  border-radius: 16px;
+  padding: 28px 18px 24px;
   cursor: pointer;
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
   text-align: center;
@@ -356,20 +356,20 @@ button:active { transform: scale(0.97); }
 .dash-card:active { transform: translateY(-2px); }
 
 .dash-card-icon {
-  font-size: 2.2rem;
-  margin-bottom: 10px;
+  font-size: 3rem;
+  margin-bottom: 14px;
   display: block;
 }
 .dash-card-name {
   font-weight: 700;
-  font-size: 0.88rem;
+  font-size: 1rem;
   color: var(--text);
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 .dash-card-desc {
-  font-size: 0.73rem;
+  font-size: 0.8rem;
   color: var(--text-faint);
-  line-height: 1.3;
+  line-height: 1.4;
 }
 
 /* ── Geo sub-tabs ──────────────────────────────────────────────────────────── */
