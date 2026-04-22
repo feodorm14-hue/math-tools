@@ -796,29 +796,29 @@ function restoreSidebarOrder() {
 function initSidebar() {
   restoreSidebarOrder()
   const sidebar = document.getElementById('sidebar')!
-  let dragged: HTMLElement|null = null
+
+  // Клики по вкладкам
   sidebar.querySelectorAll<HTMLElement>('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      sidebar.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'))
-      document.querySelectorAll('.tab').forEach(p=>p.classList.remove('active'))
+      sidebar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+      document.querySelectorAll('.tab').forEach(p => p.classList.remove('active'))
       btn.classList.add('active')
-      document.getElementById('tab-'+btn.dataset.tab!)?.classList.add('active')
+      document.getElementById('tab-' + btn.dataset.tab!)?.classList.add('active')
     })
   })
-  sidebar.addEventListener('dragstart', e => { dragged=(e.target as HTMLElement).closest('.tab-btn'); dragged?.classList.add('dragging') })
-  sidebar.addEventListener('dragend', () => { dragged?.classList.remove('dragging'); sidebar.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('drag-over')); dragged=null; saveSidebarOrder() })
-  sidebar.addEventListener('dragover', e => {
-    e.preventDefault()
-    const target=(e.target as HTMLElement).closest<HTMLElement>('.tab-btn')
-    if (!target||target===dragged) return
-    sidebar.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('drag-over'))
-    target.classList.add('drag-over')
-    const rect=target.getBoundingClientRect()
-    const after=e.clientY>rect.top+rect.height/2
-    if (dragged) after ? target.after(dragged) : target.before(dragged)
-  })
-  sidebar.addEventListener('dragleave', e => (e.target as HTMLElement).closest<HTMLElement>('.tab-btn')?.classList.remove('drag-over'))
-  sidebar.addEventListener('drop', e => e.preventDefault())
+
+  // SortableJS — работает и с мышью, и с тачем
+  const SortableLib = (window as any).Sortable
+  if (SortableLib) {
+    new SortableLib(sidebar, {
+      animation: 200,
+      ghostClass: 'drag-over',
+      chosenClass: 'dragging',
+      delay: 150,            // задержка перед началом drag
+      delayOnTouchOnly: true, // задержка только на touch, мышь реагирует сразу
+      onEnd: () => saveSidebarOrder()
+    })
+  }
 }
 initSidebar()
 
