@@ -326,6 +326,77 @@ select {
   font-style: italic;
 }
 
+/* ── Тренировка ── */
+.btn-train {
+  margin-top: 20px;
+  background: #38a169;
+  color: #fff;
+  padding: 9px 20px;
+  font-size: 0.92rem;
+}
+.btn-train:hover { background: #2f855a; }
+
+.training-zone { margin-top: 8px; }
+
+.training-box {
+  background: #f0fff4;
+  border: 2px solid #68d391;
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-top: 12px;
+}
+.training-question {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #22543d;
+  margin-bottom: 14px;
+}
+.training-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.training-row input {
+  width: 140px;
+  font-size: 1rem;
+}
+
+/* ── Дроби: ввод выражения ── */
+.frac-btns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.frac-hint-examples {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.frac-example {
+  background: #eef2ff;
+  color: #667eea;
+  border: 1px solid #c3dafe;
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  font-family: monospace;
+}
+.frac-example:hover { background: #e0e7ff; }
+.frac-result-display {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+.frac-decimal {
+  font-size: 0.9rem;
+  color: #718096;
+  margin-top: 4px;
+}
+
 /* ── Адаптив ── */
 @media (max-width: 640px) {
   .menu-toggle { display: block; }
