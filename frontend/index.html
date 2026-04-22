@@ -288,7 +288,7 @@
     <!-- ══════════ НОД / НОК ══════════ -->
     <section id="tab-gcdlcm" class="tab">
       <h2>НОД и НОК</h2>
-      <p class="section-desc">НОД — наибольший общий делитель, НОК — наименьшее общее кратное нескольких чисел.</p>
+      <p class="section-desc"><b>НОД</b> (наибольший общий делитель) — самое большое число, на которое делятся оба числа без остатка. Пример: НОД(12, 8) = 4, потому что 4 делит и 12, и 8, и больше такого числа нет.<br><br><b>НОК</b> (наименьшее общее кратное) — самое маленькое число, которое делится на оба числа. Пример: НОК(4, 6) = 12, потому что 12 делится и на 4, и на 6. Связь: НОК(a,b) = a × b / НОД(a,b).</p>
       <p class="hint">Введи числа через запятую (2 или больше)</p>
       <div class="inputs">
         <label>Числа <input id="gl-nums" type="text" value="48, 36" style="width:240px" /></label>
@@ -346,7 +346,7 @@
     <!-- ══════════ Статистика ══════════ -->
     <section id="tab-stats" class="tab">
       <h2>Статистика</h2>
-      <p class="section-desc">Анализ набора чисел: среднее, медиана, мода, размах, минимум и максимум.</p>
+      <p class="section-desc">Анализ набора чисел: среднее, медиана, мода, размах, минимум и максимум.<br><br><b>Медиана</b> — среднее значение упорядоченного ряда. Числа сортируются по возрастанию, и берётся центральный элемент (или среднее двух центральных, если чисел чётное количество). Пример: медиана 2, 3, <b>5</b>, 7, 8 — это 5.<br><b>Мода</b> — наиболее часто встречающееся значение. Пример: в ряду 2, 3, 3, 5, 7 мода равна 3, потому что она встречается чаще всего.</p>
       <p class="hint">Введи числа через запятую</p>
       <div class="inputs">
         <label>Числа <input id="st-nums" type="text" value="4, 8, 6, 5, 3, 2, 8, 9, 2, 5" style="width:300px" /></label>
@@ -457,6 +457,8 @@
         <button onclick="convertArea()">Перевести</button>
         <div id="un-area-result" class="result hidden"></div>
       </div>
+      <div class="training-zone" id="train-units"></div>
+      <button class="btn-train" onclick="startTraining('units')">🏋️ Тренировка</button>
     </section>
 
     <!-- ══════════ Температура ══════════ -->
@@ -490,6 +492,8 @@
         <button onclick="convertTempK()">Перевести</button>
         <div id="tp-k-result" class="result hidden"></div>
       </div>
+      <div class="training-zone" id="train-temp"></div>
+      <button class="btn-train" onclick="startTraining('temp')">🏋️ Тренировка</button>
     </section>
 
     <!-- ══════════ Скорость / Время / Расстояние ══════════ -->
@@ -504,6 +508,8 @@
       </div>
       <button onclick="solveSpeed()">Найти</button>
       <div id="sp-result" class="result hidden"></div>
+      <div class="training-zone" id="train-speed"></div>
+      <button class="btn-train" onclick="startTraining('speed')">🏋️ Тренировка</button>
     </section>
 
     <!-- ══════════ Делители ══════════ -->

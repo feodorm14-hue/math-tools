@@ -523,6 +523,49 @@ function genProblem(section: string): Problem {
       const n=rnd(1,8)
       return { question:`${n}! = ?`, answer:String(factorial(n)), hint:`${n}!=${factorial(n)}` }
     }
+    case 'units': {
+      const t = rnd(0, 2)
+      if (t === 0) {
+        const km = rnd(1, 20)
+        return { question: `${km} км = ? м`, answer: String(km * 1000), hint: `1 км = 1000 м → ${km} × 1000 = ${km * 1000}` }
+      }
+      if (t === 1) {
+        const kg = rnd(1, 10)
+        return { question: `${kg} кг = ? г`, answer: String(kg * 1000), hint: `1 кг = 1000 г → ${kg} × 1000 = ${kg * 1000}` }
+      }
+      const h = rnd(1, 5)
+      return { question: `${h} ч = ? мин`, answer: String(h * 60), hint: `1 ч = 60 мин → ${h} × 60 = ${h * 60}` }
+    }
+    case 'temp': {
+      const t = rnd(0, 1)
+      if (t === 0) {
+        const c = rnd(0, 50)
+        const f = +(c * 9 / 5 + 32).toFixed(1)
+        return { question: `${c}°C → °F = ?`, answer: String(f), hint: `°F = ${c}×9/5 + 32 = ${f}` }
+      }
+      const f = [32, 68, 98.6, 212, -40][rnd(0, 4)]
+      const c = +((f - 32) * 5 / 9).toFixed(1)
+      return { question: `${f}°F → °C = ?`, answer: String(c), hint: `°C = (${f}−32)×5/9 = ${c}` }
+    }
+    case 'speed': {
+      const t2 = rnd(0, 2)
+      if (t2 === 0) {
+        const v = rnd(40, 120), t = rnd(1, 5), s = v * t
+        return { question: `v = ${v} км/ч, t = ${t} ч. Путь s = ?`, answer: String(s), hint: `s = v×t = ${v}×${t} = ${s} км` }
+      }
+      if (t2 === 1) {
+        const s = rnd(100, 600), t = rnd(2, 6), v = Math.round(s / t)
+        if (s % t !== 0) return genProblem(section)
+        return { question: `s = ${s} км, t = ${t} ч. Скорость v = ?`, answer: String(v), hint: `v = s/t = ${s}/${t} = ${v} км/ч` }
+      }
+      const v = rnd(40, 120), s = rnd(100, 600), t = Math.round(s / v * 10) / 10
+      if (!Number.isInteger(s / v)) {
+        const vv = rnd(40, 120), ss = vv * rnd(1, 5)
+        const tt = ss / vv
+        return { question: `v = ${vv} км/ч, s = ${ss} км. Время t = ?`, answer: String(tt), hint: `t = s/v = ${ss}/${vv} = ${tt} ч` }
+      }
+      return { question: `v = ${v} км/ч, s = ${s} км. Время t = ?`, answer: String(s / v), hint: `t = s/v = ${s}/${v} = ${s / v} ч` }
+    }
     default: return { question:'?', answer:'0', hint:'' }
   }
 }
