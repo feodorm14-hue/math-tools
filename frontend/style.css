@@ -316,14 +316,14 @@ button:active { transform: scale(0.97); }
 /* ── Dashboard ─────────────────────────────────────────────────────────────── */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(178px, 1fr));
+  gap: 16px;
 }
 
 @media (min-width: 900px) {
   .dashboard-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+    gap: 18px;
   }
 }
 
@@ -331,7 +331,7 @@ button:active { transform: scale(0.97); }
   background: var(--surface);
   border: 2px solid var(--border);
   border-radius: 16px;
-  padding: 28px 18px 24px;
+  padding: 22px 16px 20px;
   cursor: pointer;
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
   text-align: center;
@@ -356,8 +356,8 @@ button:active { transform: scale(0.97); }
 .dash-card:active { transform: translateY(-2px); }
 
 .dash-card-icon {
-  font-size: 3rem;
-  margin-bottom: 14px;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
   display: block;
 }
 .dash-card-name {
