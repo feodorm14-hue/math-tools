@@ -35,13 +35,11 @@ const TOOL_CARDS = [
   { id: 'formulas',   icon: '📚', name: 'Формулы',          color: '#a0aec0', desc: 'Библиотека формул' },
 ]
 
-const DASH_ORDER_KEY = 'dash-order'
-
 function renderDashboard() {
   const root = document.getElementById('dashboard-root')!
 
-  // Восстановить сохранённый порядок
-  const savedOrder: string[] | null = JSON.parse(localStorage.getItem(DASH_ORDER_KEY) ?? 'null')
+  // Берём порядок из того же ключа, что и сайдбар
+  const savedOrder: string[] | null = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? 'null')
   const cards = savedOrder
     ? [...TOOL_CARDS].sort((a, b) => {
         const ia = savedOrder.indexOf(a.id), ib = savedOrder.indexOf(b.id)
@@ -61,12 +59,10 @@ function renderDashboard() {
     </div>
   `
 
-  // Клик по карточке → переход в раздел
   root.querySelectorAll<HTMLElement>('.dash-card').forEach(card => {
     card.addEventListener('click', () => goToTab(card.dataset.id!))
   })
 
-  // SortableJS на сетке карточек
   const SortableLib = (window as any).Sortable
   if (SortableLib) {
     new SortableLib(document.getElementById('dashboard-grid'), {
@@ -74,15 +70,28 @@ function renderDashboard() {
       delay: 150,
       delayOnTouchOnly: true,
       onEnd: () => {
-        const order = Array.from(
+        // Читаем новый порядок из DOM плиток
+        const dashOrder = Array.from(
           document.querySelectorAll<HTMLElement>('#dashboard-grid .dash-card')
         ).map(c => c.dataset.id!)
-        localStorage.setItem(DASH_ORDER_KEY, JSON.stringify(order))
+        // 'home' всегда первый в сайдбаре, остальное — из плиток
+        const fullOrder = ['home', ...dashOrder]
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(fullOrder))
+        // Синхронизируем сайдбар
+        syncSidebarToOrder(fullOrder)
       }
     })
   }
 }
 renderDashboard()
+
+function syncSidebarToOrder(order: string[]) {
+  const sidebar = document.getElementById('sidebar')!
+  order.forEach(id => {
+    const btn = sidebar.querySelector<HTMLElement>(`[data-tab="${id}"]`)
+    if (btn) sidebar.appendChild(btn)
+  })
+}
 
 ;(window as any).goToTab = (id: string) => {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
@@ -762,7 +771,7 @@ function initSidebar() {
       chosenClass: 'dragging',
       delay: 150,            // задержка перед началом drag
       delayOnTouchOnly: true, // задержка только на touch, мышь реагирует сразу
-      onEnd: () => saveSidebarOrder()
+      onEnd: () => { saveSidebarOrder(); renderDashboard() }
     })
   }
 }
