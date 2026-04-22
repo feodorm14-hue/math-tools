@@ -4,25 +4,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Maths Instruments</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" />
 </head>
 <body>
 
+  <canvas id="confetti-canvas"></canvas>
   <header>
     <div class="header-inner">
-      <div>
+      <div class="header-left">
         <h1>🧮 Maths Instruments</h1>
         <p>Математический инструментарий · 5–7 класс</p>
       </div>
-      <button class="menu-toggle" id="menuToggle" aria-label="Меню">☰</button>
+      <div class="header-controls">
+        <div class="score-badge" id="global-score">⭐ 0 &nbsp;🔥 0</div>
+        <button class="dark-toggle" id="darkToggle" aria-label="Тёмная тема" title="Тёмная тема">🌙</button>
+        <button class="menu-toggle" id="menuToggle" aria-label="Меню">☰</button>
+      </div>
     </div>
   </header>
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
   <div class="layout">
   <nav class="sidebar" id="sidebar">
-    <button class="tab-btn active" data-tab="proportion" draggable="true"><span class="ti">⚖️</span><span class="tl">Пропорция</span></button>
+    <button class="tab-btn active" data-tab="home" draggable="true"><span class="ti">🏠</span><span class="tl">Главная</span></button>
+    <button class="tab-btn" data-tab="proportion" draggable="true"><span class="ti">⚖️</span><span class="tl">Пропорция</span></button>
     <button class="tab-btn" data-tab="geometry" draggable="true"><span class="ti">🔷</span><span class="tl">Геометрия</span></button>
     <button class="tab-btn" data-tab="fraction" draggable="true"><span class="ti">½</span><span class="tl">Дроби</span></button>
     <button class="tab-btn" data-tab="percent" draggable="true"><span class="ti">%</span><span class="tl">Проценты</span></button>
@@ -39,8 +48,13 @@
 
   <main>
 
+    <!-- ══════════ Главная ══════════ -->
+    <section id="tab-home" class="tab active">
+      <div id="dashboard-root"></div>
+    </section>
+
     <!-- ══════════ Пропорция ══════════ -->
-    <section id="tab-proportion" class="tab active">
+    <section id="tab-proportion" class="tab">
       <h2>Пропорция</h2>
       <p class="section-desc">Равенство двух отношений a/b = c/d. Неизвестное d находится как d = b·c / a.</p>
       <p class="hint">a / b = c / d → найти d</p>

@@ -1,5 +1,125 @@
 import katex from 'katex'
 
+// ── Тёмная тема ──────────────────────────────────────────────────────────────
+
+const THEME_KEY = 'math-theme'
+function applyTheme(dark: boolean) {
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light')
+  const btn = document.getElementById('darkToggle')
+  if (btn) btn.textContent = dark ? '☀️' : '🌙'
+  localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light')
+}
+const savedTheme = localStorage.getItem(THEME_KEY)
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+applyTheme(savedTheme ? savedTheme === 'dark' : prefersDark)
+
+document.getElementById('darkToggle')?.addEventListener('click', () => {
+  applyTheme(document.documentElement.getAttribute('data-theme') !== 'dark')
+})
+
+// ── Очки и стрик ─────────────────────────────────────────────────────────────
+
+let totalScore = parseInt(localStorage.getItem('math-score') ?? '0')
+let streak = 0
+
+function saveScore() { localStorage.setItem('math-score', String(totalScore)) }
+
+function updateGlobalScore() {
+  const el = document.getElementById('global-score')
+  if (el) el.innerHTML = `⭐ ${totalScore} &nbsp;🔥 ${streak}`
+}
+updateGlobalScore()
+
+// ── Конфетти ─────────────────────────────────────────────────────────────────
+
+function launchConfetti() {
+  const canvas = document.getElementById('confetti-canvas') as HTMLCanvasElement
+  if (!canvas) return
+  const ctx = canvas.getContext('2d')!
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+  const colors = ['#667eea','#68d391','#f6ad55','#fc8181','#76e4f7','#9f7aea','#fbd38d','#f687b3']
+  const particles = Array.from({ length: 90 }, () => ({
+    x: Math.random() * canvas.width,
+    y: -20 - Math.random() * 60,
+    vx: (Math.random() - 0.5) * 5,
+    vy: Math.random() * 4 + 2,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    w: Math.random() * 10 + 4,
+    h: Math.random() * 6 + 3,
+    angle: Math.random() * 360,
+    spin: (Math.random() - 0.5) * 8,
+  }))
+  let frame = 0
+  const animate = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy * (1 + frame * 0.006); p.angle += p.spin
+      ctx.save()
+      ctx.translate(p.x, p.y)
+      ctx.rotate(p.angle * Math.PI / 180)
+      ctx.fillStyle = p.color
+      ctx.globalAlpha = Math.max(0, 1 - frame / 70)
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h)
+      ctx.restore()
+    })
+    if (++frame < 80) requestAnimationFrame(animate)
+    else ctx.clearRect(0, 0, canvas.width, canvas.height)
+  }
+  animate()
+}
+
+// ── Дашборд ──────────────────────────────────────────────────────────────────
+
+const TOOL_CARDS = [
+  { id: 'proportion', icon: '⚖️', name: 'Пропорция',      color: '#667eea', desc: 'a/b = c/d → найти d' },
+  { id: 'geometry',   icon: '🔷', name: 'Геометрия',       color: '#f6ad55', desc: 'Площади и объёмы' },
+  { id: 'fraction',   icon: '½',  name: 'Дроби',           color: '#68d391', desc: 'Точная арифметика' },
+  { id: 'percent',    icon: '%',  name: 'Проценты',         color: '#fc8181', desc: 'Найти % от числа' },
+  { id: 'gcdlcm',     icon: '🔢', name: 'НОД / НОК',       color: '#76e4f7', desc: 'Делители и кратные' },
+  { id: 'power',      icon: '⚡', name: 'Степени и корни', color: '#fbd38d', desc: 'aⁿ · √a · ∛a' },
+  { id: 'stats',      icon: '📊', name: 'Статистика',       color: '#9f7aea', desc: 'Среднее, медиана, мода' },
+  { id: 'units',      icon: '📐', name: 'Единицы',          color: '#4fd1c5', desc: 'Перевод мер' },
+  { id: 'temp',       icon: '🌡️', name: 'Температура',     color: '#f687b3', desc: '°C ↔ °F ↔ K' },
+  { id: 'speed',      icon: '🚀', name: 'Скорость',         color: '#48bb78', desc: 'v = s / t' },
+  { id: 'divisors',   icon: '÷',  name: 'Делители',         color: '#ed8936', desc: 'Простые числа' },
+  { id: 'factorial',  icon: '!',  name: 'Факториал',        color: '#667eea', desc: 'n! · C(n,k) · A(n,k)' },
+  { id: 'formulas',   icon: '📚', name: 'Формулы',          color: '#a0aec0', desc: 'Библиотека формул' },
+]
+
+function renderDashboard() {
+  const root = document.getElementById('dashboard-root')!
+  root.innerHTML = `
+    <div class="dashboard-welcome">
+      <h2>👋 Привет!</h2>
+      <p>Выбери инструмент — или начни тренировку прямо в разделе.</p>
+      <div class="dashboard-stats">
+        <div class="stat-pill">📚 ${TOOL_CARDS.length} инструментов</div>
+        <div class="stat-pill" id="dash-score">⭐ Очки: ${totalScore}</div>
+        <div class="stat-pill" id="dash-streak">🔥 Стрик: ${streak}</div>
+      </div>
+    </div>
+    <div class="dashboard-grid">
+      ${TOOL_CARDS.map(t => `
+        <div class="dash-card" onclick="goToTab('${t.id}')" style="--card-color:${t.color}">
+          <span class="dash-card-icon">${t.icon}</span>
+          <div class="dash-card-name">${t.name}</div>
+          <div class="dash-card-desc">${t.desc}</div>
+        </div>
+      `).join('')}
+    </div>
+  `
+}
+renderDashboard()
+
+;(window as any).goToTab = (id: string) => {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+  document.querySelectorAll('.tab').forEach(p => p.classList.remove('active'))
+  const btn = document.querySelector<HTMLElement>(`.tab-btn[data-tab="${id}"]`)
+  btn?.classList.add('active')
+  document.getElementById('tab-' + id)?.classList.add('active')
+}
+
 // ── Утилиты ──────────────────────────────────────────────────────────────────
 
 function show(id: string, html: string, isError = false) {
@@ -577,9 +697,18 @@ function startTraining(section: string) {
   const zone = document.getElementById(`train-${section}`)!
   const eAns = encodeAttr(problem.answer)
   const eHint = encodeAttr(problem.hint)
+  const streakHtml = streak >= 2
+    ? `<span class="streak-chip visible">🔥 ${streak} подряд!</span>`
+    : `<span class="streak-chip"></span>`
   zone.innerHTML = `
     <div class="training-box">
-      <p class="training-question">${problem.question}</p>
+      <div class="training-header">
+        <p class="training-question">${problem.question}</p>
+        <div class="streak-info">
+          ${streakHtml}
+          <span class="score-chip">⭐ ${totalScore}</span>
+        </div>
+      </div>
       <div class="training-row">
         <input type="text" id="train-inp-${section}" placeholder="Ответ..."
           onkeydown="if(event.key==='Enter') checkTraining('${section}','${eAns}','${eHint}')" />
@@ -600,8 +729,27 @@ function startTraining(section: string) {
   const isOk = user===correct || (!isNaN(parseFloat(user)) && !isNaN(parseFloat(correct)) && Math.abs(parseFloat(user)-parseFloat(correct))<0.01)
   const el = document.getElementById(`train-res-${section}`)!
   el.className = `result ${isOk?'ok':'error'}`
-  el.innerHTML = isOk ? `✅ Правильно! Ответ: <b>${answer}</b>` : `❌ Неверно. ${hint}`
-  if (isOk) setTimeout(() => startTraining(section), 1500)
+
+  if (isOk) {
+    streak++
+    const pts = 10 + (streak > 2 ? (streak - 2) * 5 : 0)
+    totalScore += pts
+    saveScore()
+    updateGlobalScore()
+    // Обновляем дашборд если открыт
+    const dashScore = document.getElementById('dash-score')
+    const dashStreak = document.getElementById('dash-streak')
+    if (dashScore) dashScore.textContent = `⭐ Очки: ${totalScore}`
+    if (dashStreak) dashStreak.textContent = `🔥 Стрик: ${streak}`
+    const bonus = streak >= 3 ? ` <span style="color:#f6ad55">+${pts} pts 🔥</span>` : ` <span style="color:var(--accent)">+${pts} pts</span>`
+    el.innerHTML = `✅ Правильно! Ответ: <b>${answer}</b>${bonus}`
+    if (streak >= 3) launchConfetti()
+    setTimeout(() => startTraining(section), 1500)
+  } else {
+    streak = 0
+    updateGlobalScore()
+    el.innerHTML = `❌ Неверно. ${hint}`
+  }
 }
 
 ;(window as any).startTraining = startTraining
