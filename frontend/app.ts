@@ -1,130 +1,5 @@
 import katex from 'katex'
 
-// ── Авторизация ───────────────────────────────────────────────────────────────
-
-const AUTH_KEY   = 'mi-auth'
-const GUEST_KEY  = 'mi-guest-until'   // timestamp истечения гостевого доступа
-const GUEST_MS   = 24 * 60 * 60 * 1000  // 24 часа
-
-function isGuestValid(): boolean {
-  const until = localStorage.getItem(GUEST_KEY)
-  if (!until) return false
-  if (Date.now() < parseInt(until)) return true
-  localStorage.removeItem(GUEST_KEY)   // истёк — чистим
-  return false
-}
-
-// ── Пользователи ──────────────────────────────────────────────────────────────
-// Добавляй/удаляй строки сюда, чтобы управлять доступом
-const USERS: { username: string; password: string }[] = [
-  { username: 'admin',   password: 'math2026' },
-  { username: 'feodor',  password: 'math2026' },
-  { username: '5a',      password: 'class5a'  },
-  { username: '6b',      password: 'class6b'  },
-  { username: '7c',      password: 'class7c'  },
-]
-
-// Разделы доступные без авторизации
-const FREE_TABS = new Set(['home', 'power', 'fraction', 'geometry', 'formulas'])
-
-function isLoggedIn() { return localStorage.getItem(AUTH_KEY) === 'ok' || isGuestValid() }
-function canAccess(id: string) { return isLoggedIn() || FREE_TABS.has(id) }
-
-// Обновить визуальную блокировку сайдбара и дашборда после смены auth
-function refreshAccessState() {
-  renderDashboard()
-  document.querySelectorAll<HTMLElement>('.tab-btn[data-tab]').forEach(btn => {
-    btn.classList.toggle('tab-locked', !canAccess(btn.dataset.tab!))
-  })
-  // Если текущая вкладка стала недоступна — вернуть на главную
-  const activeTab = document.querySelector<HTMLElement>('.tab-btn.active')?.dataset.tab
-  if (activeTab && !canAccess(activeTab)) {
-    ;(window as any).goToTab('home')
-  }
-}
-
-function updateAuthBtn() {
-  const btn = document.getElementById('authBtn')!
-  if (localStorage.getItem(AUTH_KEY) === 'ok') {
-    btn.textContent = '✅ Выйти'
-    btn.classList.add('logged-in')
-    btn.classList.remove('guest-in')
-  } else if (isGuestValid()) {
-    const until = parseInt(localStorage.getItem(GUEST_KEY)!)
-    const hoursLeft = Math.ceil((until - Date.now()) / 3600000)
-    btn.textContent = `👤 Гость (${hoursLeft}ч)`
-    btn.classList.add('guest-in')
-    btn.classList.remove('logged-in')
-  } else {
-    btn.textContent = 'Войти'
-    btn.classList.remove('logged-in', 'guest-in')
-  }
-}
-
-;(window as any).toggleLoginPopup = () => {
-  if (isLoggedIn()) {
-    // уже вошёл (или гость) — выходим
-    localStorage.removeItem(AUTH_KEY)
-    localStorage.removeItem(GUEST_KEY)
-    updateAuthBtn()
-    refreshAccessState()
-    return
-  }
-  const overlay = document.getElementById('login-overlay')!
-  overlay.classList.toggle('hidden')
-  if (!overlay.classList.contains('hidden')) {
-    setTimeout(() => (document.getElementById('login-username') as HTMLInputElement)?.focus(), 50)
-  }
-}
-
-;(window as any).loginAsGuest = () => {
-  localStorage.setItem(GUEST_KEY, String(Date.now() + GUEST_MS))
-  const overlay = document.getElementById('login-overlay')!
-  overlay.style.transition = 'opacity 0.2s'
-  overlay.style.opacity = '0'
-  setTimeout(() => { overlay.classList.add('hidden'); overlay.style.opacity = '' }, 200)
-  updateAuthBtn()
-  refreshAccessState()
-}
-
-;(window as any).closeLoginPopup = (e: MouseEvent) => {
-  if ((e.target as HTMLElement).id === 'login-overlay')
-    document.getElementById('login-overlay')!.classList.add('hidden')
-}
-
-;(window as any).doLogin = () => {
-  const userInput = document.getElementById('login-username') as HTMLInputElement
-  const passInput = document.getElementById('login-input')    as HTMLInputElement
-  const err       = document.getElementById('login-error')!
-
-  const login    = userInput.value.trim()
-  const password = passInput.value
-
-  const matchedUser = USERS.find(u => u.username === login)
-  const okUser = !!matchedUser
-  const okPass = okUser && matchedUser!.password === password
-
-  if (okUser && okPass) {
-    localStorage.setItem(AUTH_KEY, 'ok')
-    const overlay = document.getElementById('login-overlay')!
-    overlay.style.transition = 'opacity 0.2s'
-    overlay.style.opacity = '0'
-    setTimeout(() => { overlay.classList.add('hidden'); overlay.style.opacity = '' }, 200)
-    userInput.value = ''
-    passInput.value = ''
-    err.textContent = ''
-    updateAuthBtn()
-    refreshAccessState()
-  } else {
-    err.textContent = okUser ? '❌ Неверный пароль' : '❌ Неверный логин или пароль'
-    if (!okUser) { userInput.style.borderColor = 'var(--red)'; setTimeout(() => { userInput.style.borderColor = '' }, 1200) }
-    passInput.style.borderColor = 'var(--red)'; setTimeout(() => { passInput.style.borderColor = '' }, 1200)
-    passInput.value = ''
-    ;(okUser ? passInput : userInput).focus()
-  }
-}
-
-updateAuthBtn()
 
 // ── Хранилище ─────────────────────────────────────────────────────────────────
 
@@ -192,13 +67,11 @@ function renderDashboard() {
   root.innerHTML = `
     <div class="dashboard-grid" id="dashboard-grid">
       ${cards.map(t => {
-        const locked = !canAccess(t.id)
         return `
-        <div class="dash-card${locked ? ' dash-locked' : ''}" data-id="${t.id}" style="--card-color:${t.color}">
-          ${locked ? '<span class="dash-lock-icon">🔒</span>' : ''}
+        <div class="dash-card" data-id="${t.id}" style="--card-color:${t.color}">
           <span class="dash-card-icon">${t.icon}</span>
           <div class="dash-card-name">${t.name}</div>
-          <div class="dash-card-desc">${locked ? 'Требуется вход' : t.desc}</div>
+          <div class="dash-card-desc">${t.desc}</div>
         </div>`
       }).join('')}
     </div>
@@ -226,28 +99,7 @@ function renderDashboard() {
 }
 renderDashboard()
 
-function showLockPrompt(name: string) {
-  const prompt = document.getElementById('lock-prompt')!
-  document.getElementById('lock-prompt-name')!.textContent = '🔒 «' + name + '»'
-  prompt.classList.remove('hidden')
-  clearTimeout((window as any)._lockPromptTimer)
-  ;(window as any)._lockPromptTimer = setTimeout(() => closeLockPrompt(), 4000)
-}
-function closeLockPrompt() {
-  document.getElementById('lock-prompt')!.classList.add('hidden')
-}
-;(window as any).closeLockPrompt = closeLockPrompt
-;(window as any).openLoginFromPrompt = () => {
-  closeLockPrompt()
-  ;(window as any).toggleLoginPopup()
-}
-
 ;(window as any).goToTab = (id: string) => {
-  if (!canAccess(id)) {
-    const card = TOOL_CARDS.find(c => c.id === id)
-    showLockPrompt(card?.name ?? id)
-    return
-  }
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
   document.querySelectorAll('.tab').forEach(p => p.classList.remove('active'))
   const btn = document.querySelector<HTMLElement>(`.tab-btn[data-tab="${id}"]`)
@@ -1184,21 +1036,11 @@ function initSidebar() {
   sidebar.querySelectorAll<HTMLElement>('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = btn.dataset.tab!
-      if (!canAccess(id)) {
-        const card = TOOL_CARDS.find(c => c.id === id)
-        showLockPrompt(card?.name ?? id)
-        return
-      }
       sidebar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
       document.querySelectorAll('.tab').forEach(p => p.classList.remove('active'))
       btn.classList.add('active')
       document.getElementById('tab-' + id)?.classList.add('active')
     })
-  })
-
-  // Применить визуальные замки сразу при загрузке
-  sidebar.querySelectorAll<HTMLElement>('.tab-btn[data-tab]').forEach(btn => {
-    btn.classList.toggle('tab-locked', !canAccess(btn.dataset.tab!))
   })
 
   // SortableJS внутри каждой группы

@@ -12,23 +12,6 @@
 </head>
 <body>
 
-  <!-- ══════════ Попап входа ══════════ -->
-  <div id="login-overlay" class="hidden" onclick="closeLoginPopup(event)">
-    <div id="login-box">
-      <div id="login-logo">🧮</div>
-      <div id="login-title">Вход</div>
-      <div id="login-sub">Введи логин и пароль для доступа</div>
-      <input id="login-username" type="text" placeholder="Логин…" autocomplete="username"
-        onkeydown="if(event.key==='Enter') document.getElementById('login-input').focus()" />
-      <input id="login-input" type="password" placeholder="Пароль…" autocomplete="current-password"
-        onkeydown="if(event.key==='Enter') doLogin()" />
-      <button id="login-btn" onclick="doLogin()">Войти →</button>
-      <div id="login-error"></div>
-      <div id="login-divider"><span>или</span></div>
-      <button id="guest-btn" onclick="loginAsGuest()">👤 Войти как гость · 24 часа</button>
-    </div>
-  </div>
-
   <header>
     <div class="header-inner">
       <div class="header-left">
@@ -37,18 +20,11 @@
       </div>
       <div class="header-controls">
         <button class="dark-toggle" id="darkToggle" aria-label="Тёмная тема" title="Тёмная тема">🌙</button>
-        <button class="auth-btn" id="authBtn" onclick="toggleLoginPopup()">Войти</button>
         <button class="menu-toggle" id="menuToggle" aria-label="Меню">☰</button>
       </div>
     </div>
   </header>
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
-  <div id="lock-prompt" class="hidden">
-    <span id="lock-prompt-name"></span>
-    <span class="lock-prompt-msg">закрыт</span>
-    <button id="lock-prompt-btn" onclick="openLoginFromPrompt()">Войти →</button>
-    <button class="lock-prompt-close" onclick="closeLockPrompt()">✕</button>
-  </div>
 
   <div class="layout">
   <nav class="sidebar" id="sidebar">
