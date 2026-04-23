@@ -544,6 +544,88 @@ button:active { transform: scale(0.97); }
 .training-row input { width: 140px; font-size: 1rem; }
 
 
+/* ── Мини-тест ─────────────────────────────────────────────────────────────── */
+
+.test-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.test-counter {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-faint);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.test-bar {
+  flex: 1;
+  height: 5px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.test-bar-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.test-results { text-align: center; }
+
+.test-score-wrap { margin-bottom: 16px; }
+
+.test-score {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.test-score.perfect { color: var(--green); }
+.test-score.good    { color: #d97706; }
+.test-score.poor    { color: var(--red); }
+
+.test-score-label {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.test-time {
+  font-size: 0.82rem;
+  color: var(--text-faint);
+}
+
+.test-mistakes {
+  text-align: left;
+  background: var(--red-light);
+  border: 1px solid var(--red);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 12px;
+}
+.test-mistakes-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+.test-mistake-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.85rem;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(229,62,62,0.15);
+  color: var(--text);
+}
+.test-mistake-item:last-child { border-bottom: none; }
+.test-mistake-q { color: var(--text-muted); }
+.test-mistake-ans { color: var(--red); white-space: nowrap; }
+
 /* ── Fraction input (legacy) ───────────────────────────────────────────────── */
 .fraction-row { align-items: center; }
 .fraction-input { display: flex; flex-direction: column; align-items: center; gap: 0; }

@@ -867,41 +867,136 @@ function genProblem(section: string): Problem {
 
 function encodeAttr(s: string) { return s.replace(/\\/g,'\\\\').replace(/'/g,'&#39;').replace(/"/g,'&quot;') }
 
-function startTraining(section: string) {
-  const problem = genProblem(section)
+function isAnswerCorrect(user: string, correct: string): boolean {
+  const u = user.trim().toLowerCase().replace(',', '.')
+  const c = correct.trim().toLowerCase()
+  if (u === c) return true
+  // числовое сравнение с допуском
+  const uf = parseFloat(u), cf = parseFloat(c)
+  if (!isNaN(uf) && !isNaN(cf)) return Math.abs(uf - cf) < 0.05
+  // координаты вида "2;3"
+  if (u.includes(';') && c.includes(';')) {
+    const [ux,uy] = u.split(';').map(Number), [cx,cy] = c.split(';').map(Number)
+    return Math.abs(ux-cx) < 0.05 && Math.abs(uy-cy) < 0.05
+  }
+  // два корня вида "1 и 2" в любом порядке
+  const uParts = u.split(/\s+и\s+/).map(Number).sort((a,b)=>a-b)
+  const cParts = c.split(/\s+и\s+/).map(Number).sort((a,b)=>a-b)
+  if (uParts.length === 2 && cParts.length === 2)
+    return Math.abs(uParts[0]-cParts[0]) < 0.05 && Math.abs(uParts[1]-cParts[1]) < 0.05
+  return false
+}
+
+// ── Мини-тест ─────────────────────────────────────────────────────────────────
+
+const TEST_SIZE = 5
+
+interface TestState {
+  section: string
+  problems: Problem[]
+  current: number
+  results: { correct: boolean; problem: Problem; userAnswer: string }[]
+  startTime: number
+}
+
+let activeTest: TestState | null = null
+
+function startMiniTest(section: string) {
+  // Генерируем 5 уникальных задач
+  const problems: Problem[] = []
+  let tries = 0
+  while (problems.length < TEST_SIZE && tries < 100) {
+    tries++
+    const p = genProblem(section)
+    if (!problems.some(x => x.question === p.question)) problems.push(p)
+  }
+  activeTest = { section, problems, current: 0, results: [], startTime: Date.now() }
+  renderTestQuestion()
+}
+
+function renderTestQuestion() {
+  if (!activeTest) return
+  const { section, problems, current } = activeTest
+  const problem = problems[current]
   const zone = document.getElementById(`train-${section}`)!
   const eAns = encodeAttr(problem.answer)
-  const eHint = encodeAttr(problem.hint)
+  const pct = Math.round((current / TEST_SIZE) * 100)
+
   zone.innerHTML = `
     <div class="training-box">
+      <div class="test-header">
+        <span class="test-counter">Вопрос ${current + 1} из ${TEST_SIZE}</span>
+        <div class="test-bar"><div class="test-bar-fill" style="width:${pct}%"></div></div>
+      </div>
       <p class="training-question">${problem.question}</p>
       <div class="training-row">
-        <input type="text" id="train-inp-${section}" placeholder="Ответ..."
-          onkeydown="if(event.key==='Enter') checkTraining('${section}','${eAns}','${eHint}')" />
-        <button onclick="checkTraining('${section}','${eAns}','${eHint}')">Проверить</button>
-        <button class="btn-secondary" onclick="startTraining('${section}')">Другая ▶</button>
+        <input type="text" id="train-inp-${section}" placeholder="Ответ…"
+          onkeydown="if(event.key==='Enter') submitTestAnswer('${section}','${eAns}')" />
+        <button onclick="submitTestAnswer('${section}','${eAns}')">Ответить →</button>
       </div>
       <div id="train-res-${section}" class="result hidden"></div>
     </div>`
   setTimeout(() => document.getElementById(`train-inp-${section}`)?.focus(), 50)
 }
 
-;(window as any).checkTraining = (section: string, eAns: string, eHint: string) => {
-  const answer = eAns.replace(/&#39;/g,"'").replace(/&quot;/g,'"')
-  const hint   = eHint.replace(/&#39;/g,"'").replace(/&quot;/g,'"')
-  const input  = document.getElementById(`train-inp-${section}`) as HTMLInputElement
-  const user   = input.value.trim().toLowerCase().replace(',','.')
-  const correct = answer.toLowerCase()
-  const isOk   = user === correct ||
-    (!isNaN(parseFloat(user)) && !isNaN(parseFloat(correct)) &&
-     Math.abs(parseFloat(user) - parseFloat(correct)) < 0.01)
+;(window as any).submitTestAnswer = (section: string, eAns: string) => {
+  if (!activeTest) return
+  const answer = eAns.replace(/&#39;/g, "'").replace(/&quot;/g, '"')
+  const input = document.getElementById(`train-inp-${section}`) as HTMLInputElement
+  const isOk = isAnswerCorrect(input.value, answer)
+  const problem = activeTest.problems[activeTest.current]
+  activeTest.results.push({ correct: isOk, problem, userAnswer: input.value.trim() })
+  activeTest.current++
+
   const el = document.getElementById(`train-res-${section}`)!
   el.className = `result ${isOk ? 'ok' : 'error'}`
-  el.innerHTML  = isOk ? `✅ Правильно! Ответ: <b>${answer}</b>` : `❌ Неверно. ${hint}`
-  if (isOk) setTimeout(() => startTraining(section), 1500)
+  el.innerHTML = isOk ? `✅ Правильно!` : `❌ Ответ: <b>${answer}</b>`
+
+  const delay = isOk ? 500 : 1000
+  if (activeTest.current >= TEST_SIZE) {
+    setTimeout(() => showTestResults(section), delay)
+  } else {
+    setTimeout(() => renderTestQuestion(), delay)
+  }
 }
 
-;(window as any).startTraining = startTraining
+function showTestResults(section: string) {
+  if (!activeTest) return
+  const { results, startTime } = activeTest
+  const correct = results.filter(r => r.correct).length
+  const secs = Math.round((Date.now() - startTime) / 1000)
+  const zone = document.getElementById(`train-${section}`)!
+  const grade = correct === TEST_SIZE ? 'perfect' : correct >= 3 ? 'good' : 'poor'
+  const medals: Record<string,string> = { perfect: '🏆', good: '👍', poor: '📚' }
+  const messages: Record<string,string> = {
+    perfect: 'Отлично! Все верно!',
+    good: 'Хорошо, но есть над чем поработать',
+    poor: 'Стоит повторить материал'
+  }
+  const mistakes = results.filter(r => !r.correct)
+
+  zone.innerHTML = `
+    <div class="training-box test-results">
+      <div class="test-score-wrap">
+        <div class="test-score ${grade}">${correct}/${TEST_SIZE}</div>
+        <div class="test-score-label">${medals[grade]} ${messages[grade]}</div>
+        <div class="test-time">⏱ ${secs} сек</div>
+      </div>
+      ${mistakes.length ? `
+        <div class="test-mistakes">
+          <div class="test-mistakes-title">Ошибки:</div>
+          ${mistakes.map(r => `
+            <div class="test-mistake-item">
+              <span class="test-mistake-q">${r.problem.question}</span>
+              <span class="test-mistake-ans">→ <b>${r.problem.answer}</b></span>
+            </div>`).join('')}
+        </div>` : ''}
+      <button onclick="startMiniTest('${section}')" style="margin-top:12px">🔄 Ещё раз</button>
+    </div>`
+  activeTest = null
+}
+
+;(window as any).startMiniTest = startMiniTest
 
 // ── Переключение вкладок ──────────────────────────────────────────────────────
 
