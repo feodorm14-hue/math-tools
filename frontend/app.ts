@@ -1,5 +1,46 @@
 import katex from 'katex'
 
+// ── Авторизация ───────────────────────────────────────────────────────────────
+
+const AUTH_KEY  = 'mi-auth'
+const PASSWORD  = 'math2026'   // ← пароль меняй здесь
+
+function checkAuth() {
+  const screen = document.getElementById('login-screen')!
+  if (localStorage.getItem(AUTH_KEY) === 'ok') {
+    screen.classList.add('hidden')
+  }
+  // иначе экран остаётся виден
+}
+
+;(window as any).doLogin = () => {
+  const input = document.getElementById('login-input') as HTMLInputElement
+  const err   = document.getElementById('login-error')!
+  if (input.value === PASSWORD) {
+    localStorage.setItem(AUTH_KEY, 'ok')
+    const screen = document.getElementById('login-screen')!
+    screen.style.transition = 'opacity 0.3s'
+    screen.style.opacity = '0'
+    setTimeout(() => screen.classList.add('hidden'), 300)
+    err.textContent = ''
+  } else {
+    err.textContent = '❌ Неверный пароль'
+    input.value = ''
+    input.focus()
+    input.style.borderColor = '#fc8181'
+    setTimeout(() => { input.style.borderColor = '' }, 1200)
+  }
+}
+
+;(window as any).doLogout = () => {
+  localStorage.removeItem(AUTH_KEY)
+  location.reload()
+}
+
+checkAuth()
+
+// ── Хранилище ─────────────────────────────────────────────────────────────────
+
 const STORAGE_KEY = 'sidebar-order'
 
 // ── Тёмная тема ──────────────────────────────────────────────────────────────
