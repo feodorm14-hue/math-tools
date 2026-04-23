@@ -35,6 +35,12 @@ const TOOL_CARDS = [
   { id: 'divisors',   icon: '÷',  name: 'Делители',         color: '#ed8936', desc: 'Простые числа' },
   { id: 'factorial',  icon: '!',  name: 'Факториал',        color: '#667eea', desc: 'n! · C(n,k) · A(n,k)' },
   { id: 'formulas',   icon: '📚', name: 'Формулы',          color: '#a0aec0', desc: 'Библиотека формул' },
+  { id: 'equations',   icon: '🔭', name: 'Уравнения',      color: '#7c3aed', desc: 'Линейные и квадратные' },
+  { id: 'coordinates', icon: '📍', name: 'Координаты',     color: '#0891b2', desc: 'Расстояние, середина' },
+  { id: 'progressions',icon: '📈', name: 'Прогрессии',     color: '#059669', desc: 'Арифм. и геом.' },
+  { id: 'rounding',    icon: '🎯', name: 'Округление',     color: '#d97706', desc: 'До любого разряда' },
+  { id: 'scale',       icon: '🗺️', name: 'Масштаб',        color: '#be185d', desc: 'Карта ↔ реальность' },
+  { id: 'work',        icon: '⚙️', name: 'Работа',         color: '#475569', desc: 'Совместная работа' },
 ]
 
 function renderDashboard() {
@@ -555,6 +561,105 @@ function factorial(n: number): bigint {
   show('an-result',`A(${n},${k}) = <b>${factorial(n)/factorial(n-k)}</b>`)
 }
 
+// ── Уравнения ─────────────────────────────────────────────────────────────────
+
+;(window as any).solveLinear = () => {
+  const a = val('eq-a'), b = val('eq-b')
+  if (a === 0) { show('eq-lin-result', 'a не может быть 0', true); return }
+  const x = +(-b / a).toFixed(8)
+  show('eq-lin-result', `${a}x + (${b}) = 0<br/>x = −(${b}) / ${a} = <b>${x}</b>`)
+}
+
+;(window as any).solveQuadratic = () => {
+  const a = val('eq-qa'), b = val('eq-qb'), c = val('eq-qc')
+  if (a === 0) { show('eq-quad-result', 'a не может быть 0 (иначе это линейное уравнение)', true); return }
+  const D = b * b - 4 * a * c
+  if (D < 0) {
+    show('eq-quad-result', `D = ${b}² − 4·${a}·${c} = <b>${+D.toFixed(6)}</b><br/>D &lt; 0 — вещественных корней нет`)
+  } else if (D === 0) {
+    const x = +(-b / (2 * a)).toFixed(8)
+    show('eq-quad-result', `D = <b>0</b><br/>Один корень: x = −b / 2a = <b>${x}</b>`)
+  } else {
+    const x1 = +((-b + Math.sqrt(D)) / (2 * a)).toFixed(8)
+    const x2 = +((-b - Math.sqrt(D)) / (2 * a)).toFixed(8)
+    show('eq-quad-result', `D = ${b}² − 4·${a}·${c} = <b>${+D.toFixed(6)}</b><br/>x₁ = <b>${x1}</b>, x₂ = <b>${x2}</b>`)
+  }
+}
+
+// ── Координаты ────────────────────────────────────────────────────────────────
+
+;(window as any).solveCoordinates = () => {
+  const x1 = val('co-x1'), y1 = val('co-y1'), x2 = val('co-x2'), y2 = val('co-y2')
+  const dist = +Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2).toFixed(6)
+  const mx = (x1 + x2) / 2, my = (y1 + y2) / 2
+  show('co-result',
+    `Расстояние AB = √((${x2}−${x1})² + (${y2}−${y1})²) = <b>${dist}</b><br/>` +
+    `Середина M = (<b>${mx}; ${my}</b>)`)
+}
+
+// ── Прогрессии ────────────────────────────────────────────────────────────────
+
+;(window as any).solveArith = () => {
+  const a1 = val('ap-a1'), d = val('ap-d'), n = Math.floor(val('ap-n'))
+  if (n < 1) { show('ap-result', 'n должно быть ≥ 1', true); return }
+  const an = a1 + (n - 1) * d
+  const S = n * (a1 + an) / 2
+  show('ap-result', `a${n} = ${a1} + (${n}−1)·${d} = <b>${+an.toFixed(6)}</b><br/>Сумма S₁..${n} = <b>${+S.toFixed(6)}</b>`)
+}
+
+;(window as any).solveGeom = () => {
+  const b1 = val('gp-b1'), q = val('gp-q'), n = Math.floor(val('gp-n'))
+  if (n < 1) { show('gp-result', 'n должно быть ≥ 1', true); return }
+  const bn = b1 * q ** (n - 1)
+  const S = q === 1 ? b1 * n : b1 * (q ** n - 1) / (q - 1)
+  show('gp-result', `b${n} = ${b1} · ${q}^${n-1} = <b>${+bn.toFixed(6)}</b><br/>Сумма S₁..${n} = <b>${+S.toFixed(6)}</b>`)
+}
+
+// ── Округление ────────────────────────────────────────────────────────────────
+
+;(window as any).solveRounding = () => {
+  const raw = (document.getElementById('ro-num') as HTMLInputElement).value.trim().replace(',', '.')
+  const num = parseFloat(raw)
+  if (isNaN(num)) { show('ro-result', 'Введи корректное число', true); return }
+  const prec = parseInt((document.getElementById('ro-prec') as HTMLSelectElement).value, 10)
+  const rounded = prec >= 0
+    ? +num.toFixed(prec)
+    : Math.round(num / 10 ** (-prec)) * 10 ** (-prec)
+  const labels: Record<number, string> = { 0: 'единиц', 1: 'десятых', 2: 'сотых', 3: 'тысячных', '-1': 'десятков', '-2': 'сотен' }
+  show('ro-result', `${num} округлённое до ${labels[prec]} = <b>${rounded}</b>`)
+}
+
+// ── Масштаб ───────────────────────────────────────────────────────────────────
+
+;(window as any).solveScaleToReal = () => {
+  const mapCm = val('sc-map'), n = val('sc-n1')
+  if (!n) { show('sc-real-result', 'Введи масштаб N', true); return }
+  const realCm = mapCm * n
+  const realM = +(realCm / 100).toFixed(4)
+  const realKm = +(realCm / 100000).toFixed(6)
+  show('sc-real-result', `${mapCm} см × ${n} = <b>${realCm} см</b> = <b>${realM} м</b> = <b>${realKm} км</b>`)
+}
+
+;(window as any).solveScaleToMap = () => {
+  const realM = val('sc-real'), n = val('sc-n2')
+  if (!n) { show('sc-map-result', 'Введи масштаб N', true); return }
+  const realCm = realM * 100
+  const mapCm = +(realCm / n).toFixed(6)
+  show('sc-map-result', `${realM} м = ${realCm} см; на карте: ${realCm} / ${n} = <b>${mapCm} см</b>`)
+}
+
+// ── Работа ────────────────────────────────────────────────────────────────────
+
+;(window as any).solveWork = () => {
+  const a = val('wk-a'), b = val('wk-b')
+  if (a <= 0 || b <= 0) { show('wk-result', 'Введи положительное время', true); return }
+  const together = +(1 / (1 / a + 1 / b)).toFixed(6)
+  show('wk-result',
+    `1-й: 1/${a} работы/ч · 2-й: 1/${b} работы/ч<br/>` +
+    `Вместе: 1/${a} + 1/${b} = ${+(1/a + 1/b).toFixed(6)} работы/ч<br/>` +
+    `Время вместе: <b>${together} ч</b>`)
+}
+
 // ── Система тренировок ────────────────────────────────────────────────────────
 
 function rnd(min: number, max: number) { return Math.floor(Math.random()*(max-min+1))+min }
@@ -669,6 +774,68 @@ function genProblem(section: string): Problem {
       }
       return { question: `v = ${v} км/ч, s = ${s} км. Время t = ?`, answer: String(s / v), hint: `t = s/v = ${s}/${v} = ${s / v} ч` }
     }
+    case 'equations': {
+      if (rnd(0, 1) === 0) {
+        // Линейное: ax + b = 0 → x = -b/a
+        const x = rnd(-10, 10), a = rnd(1, 9), b = -a * x
+        return { question: `Реши: ${a}x + (${b}) = 0`, answer: String(x), hint: `x = −(${b}) / ${a} = ${x}` }
+      } else {
+        // Квадратное с целыми корнями: (x - r1)(x - r2) = 0
+        const r1 = rnd(-8, 8), r2 = rnd(-8, 8)
+        const b = -(r1 + r2), c = r1 * r2
+        const bSign = b >= 0 ? `+${b}` : String(b)
+        const cSign = c >= 0 ? `+${c}` : String(c)
+        const ans = [r1, r2].sort((a, b) => a - b).join(' и ')
+        return { question: `Реши: x²${bSign}x${cSign} = 0`, answer: ans, hint: `Корни: ${r1} и ${r2} (проверь через скобки)` }
+      }
+    }
+    case 'coordinates': {
+      const x1 = rnd(-5, 5), y1 = rnd(-5, 5), dx = rnd(1, 6), dy = rnd(1, 6)
+      const x2 = x1 + dx, y2 = y1 + dy
+      if (rnd(0, 1) === 0) {
+        const dist = +Math.sqrt(dx * dx + dy * dy).toFixed(2)
+        return { question: `Расстояние от (${x1};${y1}) до (${x2};${y2}) = ?`, answer: String(dist), hint: `√(${dx}²+${dy}²) = ${dist}` }
+      } else {
+        const mx = (x1 + x2) / 2, my = (y1 + y2) / 2
+        return { question: `Середина отрезка (${x1};${y1})–(${x2};${y2}) = ?`, answer: `${mx};${my}`, hint: `(${x1}+${x2})/2; (${y1}+${y2})/2 = ${mx};${my}` }
+      }
+    }
+    case 'progressions': {
+      if (rnd(0, 1) === 0) {
+        const a1 = rnd(1, 10), d = rnd(1, 5), n = rnd(3, 8)
+        const an = a1 + (n - 1) * d
+        return { question: `АП: a₁=${a1}, d=${d}. Найди a${n}`, answer: String(an), hint: `a${n} = ${a1} + (${n}−1)·${d} = ${an}` }
+      } else {
+        const b1 = rnd(1, 5), q = rnd(2, 4), n = rnd(2, 5)
+        const bn = b1 * q ** (n - 1)
+        return { question: `ГП: b₁=${b1}, q=${q}. Найди b${n}`, answer: String(bn), hint: `b${n} = ${b1}·${q}^${n-1} = ${bn}` }
+      }
+    }
+    case 'rounding': {
+      const digits = rnd(1, 3)
+      const base = rnd(100, 9999)
+      const num = base / 100
+      const rounded = +num.toFixed(digits)
+      const labels: Record<number, string> = { 1: 'десятых', 2: 'сотых', 3: 'тысячных' }
+      return { question: `Округли ${num} до ${labels[digits]}`, answer: String(rounded), hint: `${num} → ${rounded}` }
+    }
+    case 'scale': {
+      const n = [1000, 2000, 5000, 10000, 25000][rnd(0, 4)]
+      if (rnd(0, 1) === 0) {
+        const mapCm = rnd(1, 10)
+        const realM = mapCm * n / 100
+        return { question: `Масштаб 1:${n}. На карте ${mapCm} см. Реальное расстояние (м)?`, answer: String(realM), hint: `${mapCm}×${n}/100 = ${realM} м` }
+      } else {
+        const realM = rnd(1, 20) * (n / 1000)
+        const mapCm = realM * 100 / n
+        return { question: `Масштаб 1:${n}. Реальное ${realM} м. На карте (см)?`, answer: String(mapCm), hint: `${realM}×100/${n} = ${mapCm} см` }
+      }
+    }
+    case 'work': {
+      const a = rnd(2, 8), b = rnd(2, 8)
+      const t = +(1 / (1 / a + 1 / b)).toFixed(2)
+      return { question: `1-й делает за ${a} ч, 2-й за ${b} ч. Вместе за сколько часов?`, answer: String(t), hint: `1/(1/${a}+1/${b}) = ${t} ч` }
+    }
     default: return { question:'?', answer:'0', hint:'' }
   }
 }
@@ -731,6 +898,9 @@ initTabs('.pow-btn','pow-')
 initTabs('.units-btn','units-')
 initTabs('.temp-btn','temp-')
 initTabs('.fact-btn','fact-')
+initTabs('.eq-btn','eq-')
+initTabs('.prog-btn','prog-')
+initTabs('.sc-btn','sc-')
 
 // ── Сайдбар ───────────────────────────────────────────────────────────────────
 

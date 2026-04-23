@@ -42,6 +42,12 @@
     <button class="tab-btn" data-tab="divisors" draggable="true"><span class="ti">÷</span><span class="tl">Делители</span></button>
     <button class="tab-btn" data-tab="factorial" draggable="true"><span class="ti">!</span><span class="tl">Факториал</span></button>
     <button class="tab-btn" data-tab="formulas" draggable="true"><span class="ti">📚</span><span class="tl">Формулы</span></button>
+    <button class="tab-btn" data-tab="equations" draggable="true"><span class="ti">🔭</span><span class="tl">Уравнения</span></button>
+    <button class="tab-btn" data-tab="coordinates" draggable="true"><span class="ti">📍</span><span class="tl">Координаты</span></button>
+    <button class="tab-btn" data-tab="progressions" draggable="true"><span class="ti">📈</span><span class="tl">Прогрессии</span></button>
+    <button class="tab-btn" data-tab="rounding" draggable="true"><span class="ti">🎯</span><span class="tl">Округление</span></button>
+    <button class="tab-btn" data-tab="scale" draggable="true"><span class="ti">🗺️</span><span class="tl">Масштаб</span></button>
+    <button class="tab-btn" data-tab="work" draggable="true"><span class="ti">⚙️</span><span class="tl">Работа</span></button>
   </nav>
 
   <main>
@@ -54,7 +60,7 @@
     <!-- ══════════ Пропорция ══════════ -->
     <section id="tab-proportion" class="tab">
       <h2>Пропорция</h2>
-      <p class="section-desc">Равенство двух отношений a/b = c/d. Неизвестное d находится как d = b·c / a.</p>
+      <p class="section-desc"><b>Пропорция</b> — равенство двух отношений: a/b = c/d. Это значит, что отношение первого к второму такое же, как третьего к четвёртому.<br><br>Основное свойство пропорции: произведения крест-накрест равны, то есть a×d = b×c. Из этого следует: <b>d = b·c / a</b>.<br>Пример: 2/3 = 4/? → d = 3×4/2 = 6.</p>
       <p class="hint">a / b = c / d → найти d</p>
       <div class="inputs">
         <label>a <input id="pr-a" type="number" value="4" /></label>
@@ -70,7 +76,7 @@
     <!-- ══════════ Геометрия ══════════ -->
     <section id="tab-geometry" class="tab">
       <h2>Геометрия</h2>
-      <p class="section-desc">Вычисление площадей, периметров и объёмов основных плоских и объёмных фигур.</p>
+      <p class="section-desc"><b>Геометрия</b> — раздел математики о фигурах, их свойствах и измерениях.<br><br>Площадь показывает, сколько места занимает фигура на плоскости (единицы: см², м²). Периметр — длина границы фигуры. Объём — сколько пространства занимает тело (единицы: см³, м³). Выбери фигуру ниже и введи нужные размеры.</p>
       <div class="geo-tabs">
         <button class="geo-btn active" data-geo="pythagoras">Пифагор</button>
         <button class="geo-btn" data-geo="circle">Круг</button>
@@ -236,7 +242,7 @@
     <!-- ══════════ Дроби ══════════ -->
     <section id="tab-fraction" class="tab">
       <h2>Дроби</h2>
-      <p class="section-desc">Ручной ввод любого выражения с дробями. Поддерживаются +, −, ×, ÷, скобки и многоэтажные дроби вида (a+b)/(c−d).</p>
+      <p class="section-desc"><b>Дробь</b> — запись вида a/b, где a — числитель, b — знаменатель (b ≠ 0). Дробь показывает, какая часть от целого взята.<br><br>Правила: при сложении/вычитании нужен общий знаменатель; при умножении — перемножить числители и знаменатели; при делении — умножить на перевёрнутую дробь. Калькулятор даёт точный результат без округлений. Поддерживаются +, −, ×, ÷ и скобки.</p>
       <div class="frac-hint-examples">
         <span class="frac-example" onclick="setFracExpr('1/2 + 1/3')">1/2 + 1/3</span>
         <span class="frac-example" onclick="setFracExpr('(1+2)/(5-2)')">( 1+2 ) / ( 5−2 )</span>
@@ -268,7 +274,7 @@
     <!-- ══════════ Проценты ══════════ -->
     <section id="tab-percent" class="tab">
       <h2>Проценты</h2>
-      <p class="section-desc">Найди процент от числа или вычисли, сколько процентов одно число составляет от другого.</p>
+      <p class="section-desc"><b>Процент</b> — сотая часть числа (от лат. «pro centum» — из ста). Знак %.<br><br>Формулы: <b>X% от N = N × X / 100</b>. Обратная задача — сколько процентов X составляет от N: <b>P = X / N × 100</b>.<br>Пример: 20% от 150 = 150×20/100 = 30. И наоборот: 30 — это 20% от 150.</p>
       <div class="percent-tabs">
         <button class="pct-btn active" data-pct="of">Найти % от числа</button>
         <button class="pct-btn" data-pct="what">Сколько % составляет</button>
@@ -317,7 +323,7 @@
     <!-- ══════════ Степени и корни ══════════ -->
     <section id="tab-power" class="tab">
       <h2>Степени и корни</h2>
-      <p class="section-desc">Возведение в степень aⁿ, квадратный и кубический корни. Основа алгебры и физики.</p>
+      <p class="section-desc"><b>Степень</b> aⁿ — это произведение n одинаковых множителей a. Например, 2⁴ = 2×2×2×2 = 16.<br><br><b>Квадратный корень</b> √a — число, которое при возведении в квадрат даёт a. Например, √25 = 5.<br><b>Кубический корень</b> ∛a — число, куб которого равен a. Например, ∛27 = 3.<br>Степень и корень — обратные операции: √(a²) = a.</p>
       <div class="percent-tabs">
         <button class="pow-btn active" data-pow="power">Степень aⁿ</button>
         <button class="pow-btn" data-pow="sqrt">Квадратный корень</button>
@@ -372,7 +378,7 @@
     <!-- ══════════ Единицы измерения ══════════ -->
     <section id="tab-units" class="tab">
       <h2>Перевод единиц</h2>
-      <p class="section-desc">Перевод между единицами длины, массы, времени и площади. Незаменимо в задачах на измерение.</p>
+      <p class="section-desc"><b>Единицы измерения</b> — стандарты для сравнения величин.<br><br>Длина: 1 км = 1000 м = 10 дм × 1000 = 10 000 дм. Масса: 1 т = 1000 кг = 1 000 000 г. Время: 1 ч = 60 мин = 3600 с. Площадь: 1 м² = 100 дм² = 10 000 см².<br>Чтобы перевести из большей единицы в меньшую — умножай; из меньшей в большую — дели.</p>
       <div class="percent-tabs">
         <button class="units-btn active" data-units="length">Длина</button>
         <button class="units-btn" data-units="mass">Масса</button>
@@ -476,7 +482,7 @@
     <!-- ══════════ Температура ══════════ -->
     <section id="tab-temp" class="tab">
       <h2>Перевод температуры</h2>
-      <p class="section-desc">Перевод между °C, °F и Кельвином. Пригодится на уроках физики и химии.</p>
+      <p class="section-desc"><b>Температурные шкалы:</b><br><br>• <b>Цельсий (°C)</b> — основная шкала: 0°C — замерзание воды, 100°C — кипение.<br>• <b>Фаренгейт (°F)</b> — используется в США. 32°F = 0°C, 212°F = 100°C. Перевод: °F = °C × 9/5 + 32.<br>• <b>Кельвин (K)</b> — абсолютная шкала (физика). 0 K = −273,15°C — абсолютный ноль. Перевод: K = °C + 273,15.</p>
       <p class="hint">Введи значение — получишь все сразу</p>
       <div class="percent-tabs">
         <button class="temp-btn active" data-temp="c">°C → всё</button>
@@ -511,7 +517,7 @@
     <!-- ══════════ Скорость / Время / Расстояние ══════════ -->
     <section id="tab-speed" class="tab">
       <h2>Скорость · Время · Расстояние</h2>
-      <p class="section-desc">Формула v = s/t. Введи любые два значения — третье найдётся автоматически.</p>
+      <p class="section-desc"><b>Основная формула движения: v = s / t</b><br><br>Где v — скорость (км/ч), s — расстояние (км), t — время (ч). Из неё получаем: <b>s = v × t</b> и <b>t = s / v</b>.<br>Пример: велосипедист едет 15 км/ч, 2 часа. Путь = 15 × 2 = 30 км.<br>Заполни любые два поля — третье найдётся автоматически.</p>
       <p class="hint">Заполни два поля — третье найдётся</p>
       <div class="inputs">
         <label>скорость v (км/ч) <input id="sp-v" type="number" placeholder="оставь пустым" /></label>
@@ -527,7 +533,7 @@
     <!-- ══════════ Делители ══════════ -->
     <section id="tab-divisors" class="tab">
       <h2>Делители числа</h2>
-      <p class="section-desc">Все натуральные делители числа и проверка: простое оно или составное.</p>
+      <p class="section-desc"><b>Делитель</b> числа n — натуральное число, на которое n делится без остатка.<br><br><b>Простое число</b> — делится только на 1 и на само себя (2, 3, 5, 7, 11…). <b>Составное</b> — имеет другие делители.<br>Пример: делители 12 → 1, 2, 3, 4, 6, 12 (составное). Делители 7 → 1, 7 (простое).<br>Алгоритм: проверяем все числа до √n — это быстрее, чем до n.</p>
       <p class="hint">Найди все делители и проверь простое ли число</p>
       <div class="inputs">
         <label>Число <input id="dv-n" type="number" value="36" /></label>
@@ -541,7 +547,7 @@
     <!-- ══════════ Факториал и комбинаторика ══════════ -->
     <section id="tab-factorial" class="tab">
       <h2>Факториал и комбинаторика</h2>
-      <p class="section-desc">n! — произведение всех чисел от 1 до n. Здесь также сочетания C(n,k) и размещения A(n,k).</p>
+      <p class="section-desc"><b>Факториал</b> n! = 1 × 2 × 3 × … × n. Например, 5! = 120. По определению 0! = 1.<br><br><b>Сочетания C(n,k)</b> — количество способов выбрать k предметов из n (порядок не важен). C(5,2) = 10.<br><b>Размещения A(n,k)</b> — количество способов выбрать и расставить k предметов из n (порядок важен). A(5,2) = 20.<br>Формулы: C(n,k) = n!/(k!(n−k)!), A(n,k) = n!/(n−k)!</p>
       <div class="percent-tabs">
         <button class="fact-btn active" data-fact="factorial">Факториал n!</button>
         <button class="fact-btn" data-fact="combinations">Сочетания C(n,k)</button>
@@ -589,6 +595,161 @@
         <button class="btn-secondary" onclick="loadAllFormulas()">Все формулы</button>
       </div>
       <div id="fm-result" class="formula-list"></div>
+    </section>
+
+    <!-- ══════════ Уравнения ══════════ -->
+    <section id="tab-equations" class="tab">
+      <h2>Уравнения</h2>
+      <p class="section-desc"><b>Уравнение</b> — запись вида f(x) = g(x), где нужно найти значение x.<br><br><b>Линейное уравнение</b> ax + b = 0 решается: x = −b / a. Например, 2x + 6 = 0 → x = −3.<br><b>Квадратное уравнение</b> ax² + bx + c = 0 решается через дискриминант: D = b² − 4ac. Если D &gt; 0 — два корня, D = 0 — один корень, D &lt; 0 — нет вещественных корней. Корни: x = (−b ± √D) / 2a.</p>
+      <div class="percent-tabs">
+        <button class="eq-btn active" data-eq="linear">Линейное ax+b=0</button>
+        <button class="eq-btn" data-eq="quadratic">Квадратное ax²+bx+c=0</button>
+      </div>
+
+      <div id="eq-linear" class="eq-panel active">
+        <p class="hint">ax + b = 0 → x = −b / a</p>
+        <div class="inputs">
+          <label>a <input id="eq-a" type="number" value="2" /></label>
+          <label>b <input id="eq-b" type="number" value="6" /></label>
+        </div>
+        <button onclick="solveLinear()">Решить</button>
+        <div id="eq-lin-result" class="result hidden"></div>
+      </div>
+
+      <div id="eq-quadratic" class="eq-panel">
+        <p class="hint">ax² + bx + c = 0, D = b²−4ac</p>
+        <div class="inputs">
+          <label>a <input id="eq-qa" type="number" value="1" /></label>
+          <label>b <input id="eq-qb" type="number" value="-5" /></label>
+          <label>c <input id="eq-qc" type="number" value="6" /></label>
+        </div>
+        <button onclick="solveQuadratic()">Решить</button>
+        <div id="eq-quad-result" class="result hidden"></div>
+      </div>
+      <div class="training-zone" id="train-equations"></div>
+      <button class="btn-train" onclick="startTraining('equations')">🏋️ Тренировка</button>
+    </section>
+
+    <!-- ══════════ Координаты ══════════ -->
+    <section id="tab-coordinates" class="tab">
+      <h2>Координатная плоскость</h2>
+      <p class="section-desc"><b>Координатная плоскость</b> — это две перпендикулярные оси: горизонтальная (ось X, абсцисс) и вертикальная (ось Y, ординат). Каждая точка задаётся парой чисел (x; y).<br><br>Расстояние между двумя точками A(x₁, y₁) и B(x₂, y₂): <b>d = √((x₂−x₁)² + (y₂−y₁)²)</b> — теорема Пифагора в координатах.<br>Середина отрезка AB: <b>M = ((x₁+x₂)/2; (y₁+y₂)/2)</b>.</p>
+      <p class="hint">Введи координаты двух точек</p>
+      <div class="inputs">
+        <label>x₁ <input id="co-x1" type="number" value="1" /></label>
+        <label>y₁ <input id="co-y1" type="number" value="2" /></label>
+        <label>x₂ <input id="co-x2" type="number" value="4" /></label>
+        <label>y₂ <input id="co-y2" type="number" value="6" /></label>
+      </div>
+      <button onclick="solveCoordinates()">Найти</button>
+      <div id="co-result" class="result hidden"></div>
+      <div class="training-zone" id="train-coordinates"></div>
+      <button class="btn-train" onclick="startTraining('coordinates')">🏋️ Тренировка</button>
+    </section>
+
+    <!-- ══════════ Прогрессии ══════════ -->
+    <section id="tab-progressions" class="tab">
+      <h2>Прогрессии</h2>
+      <p class="section-desc"><b>Арифметическая прогрессия</b> — каждый следующий член отличается от предыдущего на одно и то же число d (разность). Формулы: aₙ = a₁ + (n−1)·d; сумма S = n·(a₁ + aₙ)/2.<br><br><b>Геометрическая прогрессия</b> — каждый следующий член умножается на одно и то же число q (знаменатель). Формулы: bₙ = b₁ · q^(n−1); сумма S = b₁·(qⁿ − 1)/(q − 1) при q ≠ 1.</p>
+      <div class="percent-tabs">
+        <button class="prog-btn active" data-prog="arith">Арифметическая</button>
+        <button class="prog-btn" data-prog="geom">Геометрическая</button>
+      </div>
+
+      <div id="prog-arith" class="prog-panel active">
+        <p class="hint">aₙ = a₁ + (n−1)·d</p>
+        <div class="inputs">
+          <label>a₁ (первый член) <input id="ap-a1" type="number" value="3" /></label>
+          <label>d (разность) <input id="ap-d" type="number" value="2" /></label>
+          <label>n (номер члена) <input id="ap-n" type="number" value="5" /></label>
+        </div>
+        <button onclick="solveArith()">Найти aₙ и сумму</button>
+        <div id="ap-result" class="result hidden"></div>
+      </div>
+
+      <div id="prog-geom" class="prog-panel">
+        <p class="hint">bₙ = b₁ · qⁿ⁻¹</p>
+        <div class="inputs">
+          <label>b₁ (первый член) <input id="gp-b1" type="number" value="2" /></label>
+          <label>q (знаменатель) <input id="gp-q" type="number" value="3" /></label>
+          <label>n (номер члена) <input id="gp-n" type="number" value="4" /></label>
+        </div>
+        <button onclick="solveGeom()">Найти bₙ и сумму</button>
+        <div id="gp-result" class="result hidden"></div>
+      </div>
+      <div class="training-zone" id="train-progressions"></div>
+      <button class="btn-train" onclick="startTraining('progressions')">🏋️ Тренировка</button>
+    </section>
+
+    <!-- ══════════ Округление ══════════ -->
+    <section id="tab-rounding" class="tab">
+      <h2>Округление чисел</h2>
+      <p class="section-desc"><b>Округление</b> — замена числа на близкое, но «удобное» значение.<br><br>Правило: смотришь на следующую цифру после нужного разряда. Если она ≥ 5 — увеличиваешь последний оставляемый разряд на 1. Если &lt; 5 — отбрасываешь остаток.<br>Пример: 3,746 → до десятых: смотрим на 4, это &lt; 5, значит 3,7. До сотых: смотрим на 6, это ≥ 5, значит 3,75.<br>Разряды: …тысячи, сотни, десятки, единицы, <b>.</b> десятые, сотые, тысячные…</p>
+      <p class="hint">Введи число и выбери точность</p>
+      <div class="inputs">
+        <label>Число <input id="ro-num" type="text" value="3.14159" style="width:160px" /></label>
+        <label>До разряда
+          <select id="ro-prec">
+            <option value="0">до единиц</option>
+            <option value="1" selected>до десятых</option>
+            <option value="2">до сотых</option>
+            <option value="3">до тысячных</option>
+            <option value="-1">до десятков</option>
+            <option value="-2">до сотен</option>
+          </select>
+        </label>
+      </div>
+      <button onclick="solveRounding()">Округлить</button>
+      <div id="ro-result" class="result hidden"></div>
+      <div class="training-zone" id="train-rounding"></div>
+      <button class="btn-train" onclick="startTraining('rounding')">🏋️ Тренировка</button>
+    </section>
+
+    <!-- ══════════ Масштаб ══════════ -->
+    <section id="tab-scale" class="tab">
+      <h2>Масштаб</h2>
+      <p class="section-desc"><b>Масштаб</b> — отношение размера на карте (чертеже) к реальному размеру. Записывается как 1 : N.<br><br>Например, масштаб 1 : 10 000 означает, что 1 см на карте = 10 000 см = 100 м в реальности.<br>Формулы: <b>Реальное расстояние = расстояние на карте × N</b>. <b>Расстояние на карте = реальное / N</b>.<br>Используется в географии, черчении, строительстве и архитектуре.</p>
+      <div class="percent-tabs">
+        <button class="sc-btn active" data-sc="toreal">Карта → Реальность</button>
+        <button class="sc-btn" data-sc="tomap">Реальность → Карта</button>
+      </div>
+
+      <div id="sc-toreal" class="sc-panel active">
+        <p class="hint">Реальное = карта × N</p>
+        <div class="inputs">
+          <label>На карте (см) <input id="sc-map" type="number" value="5" /></label>
+          <label>Масштаб 1 : <input id="sc-n1" type="number" value="10000" style="width:120px" /></label>
+        </div>
+        <button onclick="solveScaleToReal()">Найти реальное</button>
+        <div id="sc-real-result" class="result hidden"></div>
+      </div>
+
+      <div id="sc-tomap" class="sc-panel">
+        <p class="hint">Карта = реальное / N</p>
+        <div class="inputs">
+          <label>Реальное (м) <input id="sc-real" type="number" value="500" /></label>
+          <label>Масштаб 1 : <input id="sc-n2" type="number" value="10000" style="width:120px" /></label>
+        </div>
+        <button onclick="solveScaleToMap()">Найти на карте</button>
+        <div id="sc-map-result" class="result hidden"></div>
+      </div>
+      <div class="training-zone" id="train-scale"></div>
+      <button class="btn-train" onclick="startTraining('scale')">🏋️ Тренировка</button>
+    </section>
+
+    <!-- ══════════ Работа ══════════ -->
+    <section id="tab-work" class="tab">
+      <h2>Работа и производительность</h2>
+      <p class="section-desc"><b>Задачи на совместную работу</b> — один из классических типов задач.<br><br>Если первый рабочий выполняет всю работу за A часов, его производительность = 1/A работы в час. Второй за B часов — производительность 1/B.<br>Вместе за 1 час они делают <b>1/A + 1/B</b> работы, поэтому вместе справятся за <b>T = 1 / (1/A + 1/B)</b> часов.<br>Общая формула: A = производительность × время.</p>
+      <p class="hint">Введи время каждого исполнителя</p>
+      <div class="inputs">
+        <label>1-й за (ч) <input id="wk-a" type="number" value="6" /></label>
+        <label>2-й за (ч) <input id="wk-b" type="number" value="4" /></label>
+      </div>
+      <button onclick="solveWork()">Найти совместное время</button>
+      <div id="wk-result" class="result hidden"></div>
+      <div class="training-zone" id="train-work"></div>
+      <button class="btn-train" onclick="startTraining('work')">🏋️ Тренировка</button>
     </section>
 
   </main>

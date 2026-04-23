@@ -318,8 +318,8 @@ button:active { transform: scale(0.97); }
 
 /* ── Dashboard ─────────────────────────────────────────────────────────────── */
 
-/* Главная растягивается на всю высоту main */
-#tab-home {
+/* Главная растягивается на всю высоту main — только когда активна */
+#tab-home.active {
   flex: 1;
   min-height: 0;
   display: flex !important;
@@ -421,7 +421,7 @@ button:active { transform: scale(0.97); }
 
 /* ── Generic sub-tabs ──────────────────────────────────────────────────────── */
 .percent-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-.pct-btn, .pow-btn, .units-btn, .temp-btn, .fact-btn {
+.pct-btn, .pow-btn, .units-btn, .temp-btn, .fact-btn, .eq-btn, .prog-btn, .sc-btn {
   padding: 5px 13px;
   border: 2px solid var(--border);
   border-radius: 6px;
@@ -432,13 +432,15 @@ button:active { transform: scale(0.97); }
   font-family: inherit;
   transition: background var(--transition), color var(--transition), border-color var(--transition);
 }
-.pct-btn.active, .pow-btn.active, .units-btn.active, .temp-btn.active, .fact-btn.active {
+.pct-btn.active, .pow-btn.active, .units-btn.active, .temp-btn.active, .fact-btn.active, .eq-btn.active, .prog-btn.active, .sc-btn.active {
   background: var(--text);
   color: var(--bg);
   border-color: var(--text);
 }
-.pct-panel, .pow-panel, .units-panel, .temp-panel, .fact-panel { display: none; }
-.pct-panel.active, .pow-panel.active, .units-panel.active, .temp-panel.active, .fact-panel.active {
+.pct-panel, .pow-panel, .units-panel, .temp-panel, .fact-panel,
+.eq-panel, .prog-panel, .sc-panel { display: none; }
+.pct-panel.active, .pow-panel.active, .units-panel.active, .temp-panel.active, .fact-panel.active,
+.eq-panel.active, .prog-panel.active, .sc-panel.active {
   display: block;
   animation: fadeIn 0.15s ease;
 }
