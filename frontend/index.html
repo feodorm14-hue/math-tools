@@ -39,6 +39,12 @@
     </div>
   </header>
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <div id="lock-prompt" class="hidden">
+    <span id="lock-prompt-name"></span>
+    <span class="lock-prompt-msg">закрыт</span>
+    <button id="lock-prompt-btn" onclick="openLoginFromPrompt()">Войти →</button>
+    <button class="lock-prompt-close" onclick="closeLockPrompt()">✕</button>
+  </div>
 
   <div class="layout">
   <nav class="sidebar" id="sidebar">

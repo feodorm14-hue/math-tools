@@ -271,6 +271,58 @@ header::after {
 .tab-btn.tab-locked { opacity: 0.4; cursor: pointer; }
 .tab-btn.tab-locked::after { content: '🔒'; font-size: 0.65rem; margin-left: auto; }
 
+/* ── Промпт блокировки ──────────────────────────────────────────────────────── */
+#lock-prompt {
+  position: fixed;
+  bottom: 20px;
+  left: calc(var(--sidebar-w) + 16px);
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-lg);
+  z-index: 200;
+  animation: fadeIn 0.15s ease;
+  font-size: 0.88rem;
+}
+#lock-prompt.hidden { display: none; }
+#lock-prompt-name { font-weight: 700; color: var(--text); }
+.lock-prompt-msg { color: var(--text-faint); }
+#lock-prompt-btn {
+  padding: 5px 14px;
+  font-size: 0.83rem;
+  border-radius: 7px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+}
+#lock-prompt-btn:hover { background: var(--accent-dark); }
+.lock-prompt-close {
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 2px 4px;
+  line-height: 1;
+}
+.lock-prompt-close:hover { color: var(--text); background: none; box-shadow: none; }
+
+@media (max-width: 640px) {
+  #lock-prompt {
+    left: 12px;
+    right: 12px;
+    bottom: 16px;
+  }
+}
+
 .sidebar-group {
   font-size: 0.64rem;
   font-weight: 700;

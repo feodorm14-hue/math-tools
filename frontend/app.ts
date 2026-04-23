@@ -175,9 +175,26 @@ function renderDashboard() {
 }
 renderDashboard()
 
+function showLockPrompt(name: string) {
+  const prompt = document.getElementById('lock-prompt')!
+  document.getElementById('lock-prompt-name')!.textContent = '🔒 «' + name + '»'
+  prompt.classList.remove('hidden')
+  clearTimeout((window as any)._lockPromptTimer)
+  ;(window as any)._lockPromptTimer = setTimeout(() => closeLockPrompt(), 4000)
+}
+function closeLockPrompt() {
+  document.getElementById('lock-prompt')!.classList.add('hidden')
+}
+;(window as any).closeLockPrompt = closeLockPrompt
+;(window as any).openLoginFromPrompt = () => {
+  closeLockPrompt()
+  ;(window as any).toggleLoginPopup()
+}
+
 ;(window as any).goToTab = (id: string) => {
   if (!canAccess(id)) {
-    ;(window as any).toggleLoginPopup()
+    const card = TOOL_CARDS.find(c => c.id === id)
+    showLockPrompt(card?.name ?? id)
     return
   }
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
@@ -1117,7 +1134,8 @@ function initSidebar() {
     btn.addEventListener('click', () => {
       const id = btn.dataset.tab!
       if (!canAccess(id)) {
-        ;(window as any).toggleLoginPopup()
+        const card = TOOL_CARDS.find(c => c.id === id)
+        showLockPrompt(card?.name ?? id)
         return
       }
       sidebar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
