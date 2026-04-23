@@ -1028,12 +1028,45 @@ initTabs('.wk-btn','wk-')
 function initSidebar() {
   const sidebar = document.getElementById('sidebar')!
 
+  // Клики по вкладкам
   sidebar.querySelectorAll<HTMLElement>('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       sidebar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
       document.querySelectorAll('.tab').forEach(p => p.classList.remove('active'))
       btn.classList.add('active')
       document.getElementById('tab-' + btn.dataset.tab!)?.classList.add('active')
+    })
+  })
+
+  // SortableJS внутри каждой группы
+  const SortableLib = (window as any).Sortable
+  if (!SortableLib) return
+
+  document.querySelectorAll<HTMLElement>('.sidebar-group-items').forEach(groupEl => {
+    const groupName = groupEl.dataset.group!
+
+    // Восстановить сохранённый порядок
+    const saved = localStorage.getItem(`sg-${groupName}`)
+    if (saved) {
+      try {
+        (JSON.parse(saved) as string[]).forEach(tab => {
+          const btn = groupEl.querySelector<HTMLElement>(`[data-tab="${tab}"]`)
+          if (btn) groupEl.appendChild(btn)
+        })
+      } catch {}
+    }
+
+    new SortableLib(groupEl, {
+      animation: 180,
+      ghostClass: 'drag-over',
+      chosenClass: 'dragging',
+      delay: 150,
+      delayOnTouchOnly: true,
+      onEnd: () => {
+        const order = Array.from(groupEl.querySelectorAll<HTMLElement>('.tab-btn'))
+          .map(b => b.dataset.tab!)
+        localStorage.setItem(`sg-${groupName}`, JSON.stringify(order))
+      }
     })
   })
 }
