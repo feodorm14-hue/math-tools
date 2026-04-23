@@ -89,7 +89,7 @@
 #login-title { color: var(--text); font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; }
 #login-sub { color: var(--text-faint); font-size: 0.82rem; margin-bottom: 24px; }
 
-#login-input {
+#login-username, #login-input {
   width: 100%;
   padding: 11px 14px;
   border-radius: 10px;
@@ -103,8 +103,9 @@
   transition: border-color 0.2s;
   text-align: center;
   letter-spacing: 0.08em;
+  box-sizing: border-box;
 }
-#login-input:focus { border-color: var(--accent); }
+#login-username:focus, #login-input:focus { border-color: var(--accent); }
 
 #login-btn {
   width: 100%;

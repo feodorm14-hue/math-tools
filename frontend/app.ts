@@ -2,8 +2,9 @@ import katex from 'katex'
 
 // ── Авторизация ───────────────────────────────────────────────────────────────
 
-const AUTH_KEY = 'mi-auth'
-const PASSWORD = 'math2026'   // ← пароль меняй здесь
+const AUTH_KEY  = 'mi-auth'
+const USERNAME  = 'admin'      // ← логин меняй здесь
+const PASSWORD  = 'math2026'   // ← пароль меняй здесь
 
 // Разделы доступные без авторизации
 const FREE_TABS = new Set(['home', 'power', 'fraction', 'geometry', 'formulas'])
@@ -42,7 +43,7 @@ function updateAuthBtn() {
   const overlay = document.getElementById('login-overlay')!
   overlay.classList.toggle('hidden')
   if (!overlay.classList.contains('hidden')) {
-    setTimeout(() => (document.getElementById('login-input') as HTMLInputElement)?.focus(), 50)
+    setTimeout(() => (document.getElementById('login-username') as HTMLInputElement)?.focus(), 50)
   }
 }
 
@@ -52,24 +53,30 @@ function updateAuthBtn() {
 }
 
 ;(window as any).doLogin = () => {
-  const input = document.getElementById('login-input') as HTMLInputElement
-  const err   = document.getElementById('login-error')!
-  if (input.value === PASSWORD) {
+  const userInput = document.getElementById('login-username') as HTMLInputElement
+  const passInput = document.getElementById('login-input')    as HTMLInputElement
+  const err       = document.getElementById('login-error')!
+
+  const okUser = userInput.value.trim() === USERNAME
+  const okPass = passInput.value === PASSWORD
+
+  if (okUser && okPass) {
     localStorage.setItem(AUTH_KEY, 'ok')
     const overlay = document.getElementById('login-overlay')!
     overlay.style.transition = 'opacity 0.2s'
     overlay.style.opacity = '0'
     setTimeout(() => { overlay.classList.add('hidden'); overlay.style.opacity = '' }, 200)
-    input.value = ''
+    userInput.value = ''
+    passInput.value = ''
     err.textContent = ''
     updateAuthBtn()
     refreshAccessState()
   } else {
-    err.textContent = '❌ Неверный пароль'
-    input.value = ''
-    input.focus()
-    input.style.borderColor = 'var(--red)'
-    setTimeout(() => { input.style.borderColor = '' }, 1200)
+    err.textContent = okUser ? '❌ Неверный пароль' : '❌ Неверный логин или пароль'
+    if (!okUser) { userInput.style.borderColor = 'var(--red)'; setTimeout(() => { userInput.style.borderColor = '' }, 1200) }
+    if (!okPass) { passInput.style.borderColor = 'var(--red)'; setTimeout(() => { passInput.style.borderColor = '' }, 1200) }
+    passInput.value = ''
+    ;(okUser ? passInput : userInput).focus()
   }
 }
 

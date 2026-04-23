@@ -17,7 +17,9 @@
     <div id="login-box">
       <div id="login-logo">🧮</div>
       <div id="login-title">Вход</div>
-      <div id="login-sub">Введи пароль для доступа</div>
+      <div id="login-sub">Введи логин и пароль для доступа</div>
+      <input id="login-username" type="text" placeholder="Логин…" autocomplete="username"
+        onkeydown="if(event.key==='Enter') document.getElementById('login-input').focus()" />
       <input id="login-input" type="password" placeholder="Пароль…" autocomplete="current-password"
         onkeydown="if(event.key==='Enter') doLogin()" />
       <button id="login-btn" onclick="doLogin()">Войти →</button>
