@@ -1,5 +1,91 @@
 import katex from 'katex'
 
+// ── Калькулятор ───────────────────────────────────────────────────────────────
+;(() => {
+  let cur = '0', prev = '', op = '', freshResult = false
+
+  const valEl  = () => document.getElementById('calc-val')!
+  const exprEl = () => document.getElementById('calc-expr')!
+
+  function render() { valEl().textContent = cur }
+
+  function fmt(n: number): string {
+    const s = parseFloat(n.toPrecision(12)).toString()
+    return s.length > 14 ? n.toExponential(6) : s
+  }
+
+  ;(window as any).calcNum = (d: string) => {
+    if (freshResult) { cur = d; freshResult = false }
+    else cur = cur === '0' ? d : cur + d
+    render()
+  }
+
+  ;(window as any).calcDot = () => {
+    if (freshResult) { cur = '0.'; freshResult = false }
+    else if (!cur.includes('.')) cur += '.'
+    render()
+  }
+
+  ;(window as any).calcSign = () => {
+    cur = cur.startsWith('-') ? cur.slice(1) : '-' + cur
+    render()
+  }
+
+  ;(window as any).calcPercent = () => {
+    cur = fmt(parseFloat(cur) / 100)
+    render()
+  }
+
+  ;(window as any).calcClear = () => {
+    cur = '0'; prev = ''; op = ''; freshResult = false
+    exprEl().textContent = ''; render()
+  }
+
+  ;(window as any).calcOp = (o: string) => {
+    if (op && !freshResult) {
+      const res = compute()
+      cur = fmt(res); prev = cur
+    } else {
+      prev = cur
+    }
+    op = o; freshResult = true
+    exprEl().textContent = prev + ' ' + { '+':'+', '-':'−', '*':'×', '/':'÷' }[o]
+    render()
+  }
+
+  function compute(): number {
+    const a = parseFloat(prev), b = parseFloat(cur)
+    if (op === '+') return a + b
+    if (op === '-') return a - b
+    if (op === '*') return a * b
+    if (op === '/') return b === 0 ? NaN : a / b
+    return b
+  }
+
+  ;(window as any).calcEq = () => {
+    if (!op) return
+    const sym = { '+':'+', '-':'−', '*':'×', '/':'÷' }[op] ?? op
+    exprEl().textContent = prev + ' ' + sym + ' ' + cur + ' ='
+    const res = compute()
+    cur = isNaN(res) ? 'Ошибка' : fmt(res)
+    op = ''; freshResult = true
+    render()
+  }
+
+  // Клавиатура
+  document.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (document.activeElement?.tagName === 'INPUT') return
+    if (!document.getElementById('tab-home')?.classList.contains('active')) return
+    if ('0123456789'.includes(e.key)) { ;(window as any).calcNum(e.key); return }
+    if (e.key === '.') { ;(window as any).calcDot(); return }
+    if (e.key === 'Enter' || e.key === '=') { ;(window as any).calcEq(); return }
+    if (e.key === 'Backspace') {
+      cur = cur.length > 1 ? cur.slice(0, -1) : '0'; render(); return
+    }
+    if (['+','-','*','/'].includes(e.key)) { ;(window as any).calcOp(e.key); return }
+    if (e.key === 'Escape') { ;(window as any).calcClear(); return }
+  })
+})()
 
 // ── Хранилище ─────────────────────────────────────────────────────────────────
 

@@ -75,6 +75,40 @@
 
     <!-- ══════════ Главная ══════════ -->
     <section id="tab-home" class="tab active">
+
+      <!-- ── Калькулятор ── -->
+      <div id="calc-widget">
+        <div id="calc-display">
+          <div id="calc-expr"></div>
+          <div id="calc-val">0</div>
+        </div>
+        <div id="calc-keys">
+          <button class="ck ck-fn" onclick="calcClear()">C</button>
+          <button class="ck ck-fn" onclick="calcSign()">+/-</button>
+          <button class="ck ck-fn" onclick="calcPercent()">%</button>
+          <button class="ck ck-op" onclick="calcOp('/')">÷</button>
+
+          <button class="ck" onclick="calcNum('7')">7</button>
+          <button class="ck" onclick="calcNum('8')">8</button>
+          <button class="ck" onclick="calcNum('9')">9</button>
+          <button class="ck ck-op" onclick="calcOp('*')">×</button>
+
+          <button class="ck" onclick="calcNum('4')">4</button>
+          <button class="ck" onclick="calcNum('5')">5</button>
+          <button class="ck" onclick="calcNum('6')">6</button>
+          <button class="ck ck-op" onclick="calcOp('-')">−</button>
+
+          <button class="ck" onclick="calcNum('1')">1</button>
+          <button class="ck" onclick="calcNum('2')">2</button>
+          <button class="ck" onclick="calcNum('3')">3</button>
+          <button class="ck ck-op" onclick="calcOp('+')">+</button>
+
+          <button class="ck ck-zero" onclick="calcNum('0')">0</button>
+          <button class="ck" onclick="calcDot()">.</button>
+          <button class="ck ck-eq" onclick="calcEq()">=</button>
+        </div>
+      </div>
+
       <div id="dashboard-root"></div>
     </section>
 
