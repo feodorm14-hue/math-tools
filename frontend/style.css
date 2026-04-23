@@ -184,6 +184,18 @@ header::after {
 .tab-btn.dragging  { opacity: 0.35; cursor: grabbing; }
 .tab-btn.drag-over { border-color: var(--accent); background: var(--accent-light); }
 
+.sidebar-group {
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  padding: 6px 10px 2px;
+  margin-top: 2px;
+  pointer-events: none;
+  user-select: none;
+}
+
 /* ── Main ──────────────────────────────────────────────────────────────────── */
 main {
   flex: 1;
@@ -423,7 +435,7 @@ button:active { transform: scale(0.97); }
 
 /* ── Generic sub-tabs ──────────────────────────────────────────────────────── */
 .percent-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-.pct-btn, .pow-btn, .units-btn, .temp-btn, .fact-btn, .eq-btn, .prog-btn, .sc-btn {
+.pct-btn, .pow-btn, .units-btn, .temp-btn, .fact-btn, .eq-btn, .prog-btn, .sc-btn, .wk-btn {
   padding: 5px 13px;
   border: 2px solid var(--border);
   border-radius: 6px;
@@ -434,15 +446,15 @@ button:active { transform: scale(0.97); }
   font-family: inherit;
   transition: background var(--transition), color var(--transition), border-color var(--transition);
 }
-.pct-btn.active, .pow-btn.active, .units-btn.active, .temp-btn.active, .fact-btn.active, .eq-btn.active, .prog-btn.active, .sc-btn.active {
+.pct-btn.active, .pow-btn.active, .units-btn.active, .temp-btn.active, .fact-btn.active, .eq-btn.active, .prog-btn.active, .sc-btn.active, .wk-btn.active {
   background: var(--text);
   color: var(--bg);
   border-color: var(--text);
 }
 .pct-panel, .pow-panel, .units-panel, .temp-panel, .fact-panel,
-.eq-panel, .prog-panel, .sc-panel { display: none; }
+.eq-panel, .prog-panel, .sc-panel, .wk-panel { display: none; }
 .pct-panel.active, .pow-panel.active, .units-panel.active, .temp-panel.active, .fact-panel.active,
-.eq-panel.active, .prog-panel.active, .sc-panel.active {
+.eq-panel.active, .prog-panel.active, .sc-panel.active, .wk-panel.active {
   display: block;
   animation: fadeIn 0.15s ease;
 }

@@ -28,26 +28,38 @@
 
   <div class="layout">
   <nav class="sidebar" id="sidebar">
-    <button class="tab-btn active" data-tab="home" draggable="true"><span class="ti">🏠</span><span class="tl">Главная</span></button>
-    <button class="tab-btn" data-tab="proportion" draggable="true"><span class="ti">⚖️</span><span class="tl">Пропорция</span></button>
-    <button class="tab-btn" data-tab="geometry" draggable="true"><span class="ti">🔷</span><span class="tl">Геометрия</span></button>
-    <button class="tab-btn" data-tab="fraction" draggable="true"><span class="ti">½</span><span class="tl">Дроби</span></button>
-    <button class="tab-btn" data-tab="percent" draggable="true"><span class="ti">%</span><span class="tl">Проценты</span></button>
-    <button class="tab-btn" data-tab="gcdlcm" draggable="true"><span class="ti">🔢</span><span class="tl">НОД / НОК</span></button>
-    <button class="tab-btn" data-tab="power" draggable="true"><span class="ti">⚡</span><span class="tl">Степени и корни</span></button>
-    <button class="tab-btn" data-tab="stats" draggable="true"><span class="ti">📊</span><span class="tl">Статистика</span></button>
-    <button class="tab-btn" data-tab="units" draggable="true"><span class="ti">📐</span><span class="tl">Единицы</span></button>
-    <button class="tab-btn" data-tab="temp" draggable="true"><span class="ti">🌡️</span><span class="tl">Температура</span></button>
-    <button class="tab-btn" data-tab="speed" draggable="true"><span class="ti">🚀</span><span class="tl">Скорость</span></button>
-    <button class="tab-btn" data-tab="divisors" draggable="true"><span class="ti">÷</span><span class="tl">Делители</span></button>
-    <button class="tab-btn" data-tab="factorial" draggable="true"><span class="ti">!</span><span class="tl">Факториал</span></button>
-    <button class="tab-btn" data-tab="formulas" draggable="true"><span class="ti">📚</span><span class="tl">Формулы</span></button>
-    <button class="tab-btn" data-tab="equations" draggable="true"><span class="ti">🔭</span><span class="tl">Уравнения</span></button>
-    <button class="tab-btn" data-tab="coordinates" draggable="true"><span class="ti">📍</span><span class="tl">Координаты</span></button>
-    <button class="tab-btn" data-tab="progressions" draggable="true"><span class="ti">📈</span><span class="tl">Прогрессии</span></button>
-    <button class="tab-btn" data-tab="rounding" draggable="true"><span class="ti">🎯</span><span class="tl">Округление</span></button>
-    <button class="tab-btn" data-tab="scale" draggable="true"><span class="ti">🗺️</span><span class="tl">Масштаб</span></button>
-    <button class="tab-btn" data-tab="work" draggable="true"><span class="ti">⚙️</span><span class="tl">Работа</span></button>
+    <button class="tab-btn active" data-tab="home"><span class="ti">🏠</span><span class="tl">Главная</span></button>
+
+    <div class="sidebar-group">Числа</div>
+    <button class="tab-btn" data-tab="gcdlcm"><span class="ti">🔢</span><span class="tl">НОД / НОК</span></button>
+    <button class="tab-btn" data-tab="divisors"><span class="ti">÷</span><span class="tl">Делители</span></button>
+    <button class="tab-btn" data-tab="factorial"><span class="ti">!</span><span class="tl">Факториал</span></button>
+    <button class="tab-btn" data-tab="power"><span class="ti">⚡</span><span class="tl">Степени и корни</span></button>
+    <button class="tab-btn" data-tab="rounding"><span class="ti">🎯</span><span class="tl">Округление</span></button>
+
+    <div class="sidebar-group">Дроби и %</div>
+    <button class="tab-btn" data-tab="fraction"><span class="ti">½</span><span class="tl">Дроби</span></button>
+    <button class="tab-btn" data-tab="percent"><span class="ti">%</span><span class="tl">Проценты</span></button>
+    <button class="tab-btn" data-tab="proportion"><span class="ti">⚖️</span><span class="tl">Пропорция</span></button>
+
+    <div class="sidebar-group">Алгебра</div>
+    <button class="tab-btn" data-tab="equations"><span class="ti">🔭</span><span class="tl">Уравнения</span></button>
+    <button class="tab-btn" data-tab="progressions"><span class="ti">📈</span><span class="tl">Прогрессии</span></button>
+
+    <div class="sidebar-group">Геометрия</div>
+    <button class="tab-btn" data-tab="geometry"><span class="ti">🔷</span><span class="tl">Геометрия</span></button>
+    <button class="tab-btn" data-tab="coordinates"><span class="ti">📍</span><span class="tl">Координаты</span></button>
+    <button class="tab-btn" data-tab="scale"><span class="ti">🗺️</span><span class="tl">Масштаб</span></button>
+
+    <div class="sidebar-group">Задачи</div>
+    <button class="tab-btn" data-tab="speed"><span class="ti">🚀</span><span class="tl">Скорость</span></button>
+    <button class="tab-btn" data-tab="work"><span class="ti">⚙️</span><span class="tl">Работа</span></button>
+    <button class="tab-btn" data-tab="units"><span class="ti">📐</span><span class="tl">Единицы</span></button>
+    <button class="tab-btn" data-tab="temp"><span class="ti">🌡️</span><span class="tl">Температура</span></button>
+
+    <div class="sidebar-group">Справочник</div>
+    <button class="tab-btn" data-tab="stats"><span class="ti">📊</span><span class="tl">Статистика</span></button>
+    <button class="tab-btn" data-tab="formulas"><span class="ti">📚</span><span class="tl">Формулы</span></button>
   </nav>
 
   <main>
@@ -740,14 +752,45 @@
     <!-- ══════════ Работа ══════════ -->
     <section id="tab-work" class="tab">
       <h2>Работа и производительность</h2>
-      <p class="section-desc"><b>Задачи на совместную работу</b> — один из классических типов задач.<br><br>Если первый рабочий выполняет всю работу за A часов, его производительность = 1/A работы в час. Второй за B часов — производительность 1/B.<br>Вместе за 1 час они делают <b>1/A + 1/B</b> работы, поэтому вместе справятся за <b>T = 1 / (1/A + 1/B)</b> часов.<br>Общая формула: A = производительность × время.</p>
-      <p class="hint">Введи время каждого исполнителя</p>
-      <div class="inputs">
-        <label>1-й за (ч) <input id="wk-a" type="number" value="6" /></label>
-        <label>2-й за (ч) <input id="wk-b" type="number" value="4" /></label>
+      <p class="section-desc"><b>Производительность</b> — часть работы, выполняемая за единицу времени. Если всю работу принять за 1, то за A часов выполняется 1/A за каждый час.<br><br>Основные типы задач: найти совместное время, узнать сколько сделано за N часов, или посчитать итог когда один начал работу раньше другого.</p>
+      <div class="percent-tabs">
+        <button class="wk-btn active" data-wk="together">Вместе</button>
+        <button class="wk-btn" data-wk="partial">За N часов</button>
+        <button class="wk-btn" data-wk="delayed">Один начал раньше</button>
       </div>
-      <button onclick="solveWork()">Найти совместное время</button>
-      <div id="wk-result" class="result hidden"></div>
+
+      <div id="wk-together" class="wk-panel active">
+        <p class="hint">Двое работают одновременно — за сколько справятся?</p>
+        <div class="inputs">
+          <label>1-й сделает за (ч) <input id="wk-a" type="number" value="6" /></label>
+          <label>2-й сделает за (ч) <input id="wk-b" type="number" value="4" /></label>
+        </div>
+        <button onclick="solveWork()">Найти время вместе</button>
+        <div id="wk-result" class="result hidden"></div>
+      </div>
+
+      <div id="wk-partial" class="wk-panel">
+        <p class="hint">Сколько работы выполнят вместе за N часов?</p>
+        <div class="inputs">
+          <label>1-й сделает за (ч) <input id="wkp-a" type="number" value="6" /></label>
+          <label>2-й сделает за (ч) <input id="wkp-b" type="number" value="4" /></label>
+          <label>Работают вместе (ч) <input id="wkp-n" type="number" value="2" /></label>
+        </div>
+        <button onclick="solveWorkPartial()">Найти долю работы</button>
+        <div id="wkp-result" class="result hidden"></div>
+      </div>
+
+      <div id="wk-delayed" class="wk-panel">
+        <p class="hint">Первый начал один, второй присоединился через K часов</p>
+        <div class="inputs">
+          <label>1-й сделает за (ч) <input id="wkd-a" type="number" value="6" /></label>
+          <label>2-й сделает за (ч) <input id="wkd-b" type="number" value="4" /></label>
+          <label>Второй пришёл через (ч) <input id="wkd-k" type="number" value="1" /></label>
+        </div>
+        <button onclick="solveWorkDelayed()">Найти общее время</button>
+        <div id="wkd-result" class="result hidden"></div>
+      </div>
+
       <div class="training-zone" id="train-work"></div>
       <button class="btn-train" onclick="startTraining('work')">🏋️ Тренировка</button>
     </section>

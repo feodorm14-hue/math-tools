@@ -22,25 +22,31 @@ document.getElementById('darkToggle')?.addEventListener('click', () => {
 // ── Дашборд ──────────────────────────────────────────────────────────────────
 
 const TOOL_CARDS = [
-  { id: 'proportion', icon: '⚖️', name: 'Пропорция',      color: '#667eea', desc: 'a/b = c/d → найти d' },
-  { id: 'geometry',   icon: '🔷', name: 'Геометрия',       color: '#f6ad55', desc: 'Площади и объёмы' },
-  { id: 'fraction',   icon: '½',  name: 'Дроби',           color: '#68d391', desc: 'Точная арифметика' },
-  { id: 'percent',    icon: '%',  name: 'Проценты',         color: '#fc8181', desc: 'Найти % от числа' },
-  { id: 'gcdlcm',     icon: '🔢', name: 'НОД / НОК',       color: '#76e4f7', desc: 'Делители и кратные' },
-  { id: 'power',      icon: '⚡', name: 'Степени и корни', color: '#fbd38d', desc: 'aⁿ · √a · ∛a' },
-  { id: 'stats',      icon: '📊', name: 'Статистика',       color: '#9f7aea', desc: 'Среднее, медиана, мода' },
-  { id: 'units',      icon: '📐', name: 'Единицы',          color: '#4fd1c5', desc: 'Перевод мер' },
-  { id: 'temp',       icon: '🌡️', name: 'Температура',     color: '#f687b3', desc: '°C ↔ °F ↔ K' },
-  { id: 'speed',      icon: '🚀', name: 'Скорость',         color: '#48bb78', desc: 'v = s / t' },
-  { id: 'divisors',   icon: '÷',  name: 'Делители',         color: '#ed8936', desc: 'Простые числа' },
-  { id: 'factorial',  icon: '!',  name: 'Факториал',        color: '#667eea', desc: 'n! · C(n,k) · A(n,k)' },
-  { id: 'formulas',   icon: '📚', name: 'Формулы',          color: '#a0aec0', desc: 'Библиотека формул' },
-  { id: 'equations',   icon: '🔭', name: 'Уравнения',      color: '#7c3aed', desc: 'Линейные и квадратные' },
-  { id: 'coordinates', icon: '📍', name: 'Координаты',     color: '#0891b2', desc: 'Расстояние, середина' },
-  { id: 'progressions',icon: '📈', name: 'Прогрессии',     color: '#059669', desc: 'Арифм. и геом.' },
-  { id: 'rounding',    icon: '🎯', name: 'Округление',     color: '#d97706', desc: 'До любого разряда' },
-  { id: 'scale',       icon: '🗺️', name: 'Масштаб',        color: '#be185d', desc: 'Карта ↔ реальность' },
-  { id: 'work',        icon: '⚙️', name: 'Работа',         color: '#475569', desc: 'Совместная работа' },
+  // Числа
+  { id: 'gcdlcm',      icon: '🔢', name: 'НОД / НОК',      color: '#76e4f7', desc: 'Делители и кратные' },
+  { id: 'divisors',    icon: '÷',  name: 'Делители',        color: '#ed8936', desc: 'Простые числа' },
+  { id: 'factorial',   icon: '!',  name: 'Факториал',       color: '#667eea', desc: 'n! · C(n,k) · A(n,k)' },
+  { id: 'power',       icon: '⚡', name: 'Степени и корни', color: '#fbd38d', desc: 'aⁿ · √a · ∛a' },
+  { id: 'rounding',    icon: '🎯', name: 'Округление',      color: '#d97706', desc: 'До любого разряда' },
+  // Дроби и %
+  { id: 'fraction',    icon: '½',  name: 'Дроби',           color: '#68d391', desc: 'Точная арифметика' },
+  { id: 'percent',     icon: '%',  name: 'Проценты',        color: '#fc8181', desc: 'Найти % от числа' },
+  { id: 'proportion',  icon: '⚖️', name: 'Пропорция',       color: '#667eea', desc: 'a/b = c/d → найти d' },
+  // Алгебра
+  { id: 'equations',   icon: '🔭', name: 'Уравнения',       color: '#7c3aed', desc: 'Линейные и квадратные' },
+  { id: 'progressions',icon: '📈', name: 'Прогрессии',      color: '#059669', desc: 'Арифм. и геом.' },
+  // Геометрия
+  { id: 'geometry',    icon: '🔷', name: 'Геометрия',       color: '#f6ad55', desc: 'Площади и объёмы' },
+  { id: 'coordinates', icon: '📍', name: 'Координаты',      color: '#0891b2', desc: 'Расстояние, середина' },
+  { id: 'scale',       icon: '🗺️', name: 'Масштаб',         color: '#be185d', desc: 'Карта ↔ реальность' },
+  // Задачи
+  { id: 'speed',       icon: '🚀', name: 'Скорость',        color: '#48bb78', desc: 'v = s / t' },
+  { id: 'work',        icon: '⚙️', name: 'Работа',          color: '#475569', desc: 'Совместная работа' },
+  { id: 'units',       icon: '📐', name: 'Единицы',         color: '#4fd1c5', desc: 'Перевод мер' },
+  { id: 'temp',        icon: '🌡️', name: 'Температура',    color: '#f687b3', desc: '°C ↔ °F ↔ K' },
+  // Справочник
+  { id: 'stats',       icon: '📊', name: 'Статистика',      color: '#9f7aea', desc: 'Среднее, медиана, мода' },
+  { id: 'formulas',    icon: '📚', name: 'Формулы',         color: '#a0aec0', desc: 'Библиотека формул' },
 ]
 
 function renderDashboard() {
@@ -78,28 +84,16 @@ function renderDashboard() {
       delay: 150,
       delayOnTouchOnly: true,
       onEnd: () => {
-        // Читаем новый порядок из DOM плиток
+        // Сохраняем порядок плиток дашборда
         const dashOrder = Array.from(
           document.querySelectorAll<HTMLElement>('#dashboard-grid .dash-card')
         ).map(c => c.dataset.id!)
-        // 'home' всегда первый в сайдбаре, остальное — из плиток
-        const fullOrder = ['home', ...dashOrder]
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(fullOrder))
-        // Синхронизируем сайдбар
-        syncSidebarToOrder(fullOrder)
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(dashOrder))
       }
     })
   }
 }
 renderDashboard()
-
-function syncSidebarToOrder(order: string[]) {
-  const sidebar = document.getElementById('sidebar')!
-  order.forEach(id => {
-    const btn = sidebar.querySelector<HTMLElement>(`[data-tab="${id}"]`)
-    if (btn) sidebar.appendChild(btn)
-  })
-}
 
 ;(window as any).goToTab = (id: string) => {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
@@ -653,11 +647,42 @@ function factorial(n: number): bigint {
 ;(window as any).solveWork = () => {
   const a = val('wk-a'), b = val('wk-b')
   if (a <= 0 || b <= 0) { show('wk-result', 'Введи положительное время', true); return }
-  const together = +(1 / (1 / a + 1 / b)).toFixed(6)
+  const rate = +(1/a + 1/b).toFixed(6)
+  const together = +(1 / (1/a + 1/b)).toFixed(4)
   show('wk-result',
-    `1-й: 1/${a} работы/ч · 2-й: 1/${b} работы/ч<br/>` +
-    `Вместе: 1/${a} + 1/${b} = ${+(1/a + 1/b).toFixed(6)} работы/ч<br/>` +
-    `Время вместе: <b>${together} ч</b>`)
+    `Производительность 1-го: 1/${a} = ${+(1/a).toFixed(4)}/ч<br/>` +
+    `Производительность 2-го: 1/${b} = ${+(1/b).toFixed(4)}/ч<br/>` +
+    `Вместе: ${+(1/a).toFixed(4)} + ${+(1/b).toFixed(4)} = <b>${rate}/ч</b><br/>` +
+    `Время вместе: 1 ÷ ${rate} = <b>${together} ч</b>`)
+}
+
+;(window as any).solveWorkPartial = () => {
+  const a = val('wkp-a'), b = val('wkp-b'), n = val('wkp-n')
+  if (a <= 0 || b <= 0 || n <= 0) { show('wkp-result', 'Все значения должны быть > 0', true); return }
+  const rate = 1/a + 1/b
+  const done = +(rate * n).toFixed(6)
+  const pct = +(done * 100).toFixed(2)
+  const remaining = +Math.max(0, 1 - done).toFixed(6)
+  show('wkp-result',
+    `За 1 час вместе делают: 1/${a} + 1/${b} = ${+rate.toFixed(6)}<br/>` +
+    `За ${n} ч: ${+rate.toFixed(6)} × ${n} = <b>${done}</b> работы (<b>${pct}%</b>)<br/>` +
+    (done >= 1 ? '✅ Работа уже выполнена!' : `Осталось: <b>${remaining}</b>`))
+}
+
+;(window as any).solveWorkDelayed = () => {
+  const a = val('wkd-a'), b = val('wkd-b'), k = val('wkd-k')
+  if (a <= 0 || b <= 0 || k < 0) { show('wkd-result', 'Введи корректные данные', true); return }
+  const doneAlone = k / a
+  if (doneAlone >= 1) { show('wkd-result', `1-й справился за ${k} ч ещё до прихода 2-го! Итого: <b>${k} ч</b>`); return }
+  const remaining = 1 - doneAlone
+  const rateTogether = 1/a + 1/b
+  const timeTogether = +(remaining / rateTogether).toFixed(4)
+  const total = +(k + timeTogether).toFixed(4)
+  show('wkd-result',
+    `1-й работал ${k} ч один: сделал ${+doneAlone.toFixed(4)} части<br/>` +
+    `Осталось: ${+remaining.toFixed(4)}<br/>` +
+    `Вместе делают ${+rateTogether.toFixed(4)}/ч → ещё ${timeTogether} ч<br/>` +
+    `Итого времени: ${k} + ${timeTogether} = <b>${total} ч</b>`)
 }
 
 // ── Система тренировок ────────────────────────────────────────────────────────
@@ -901,28 +926,13 @@ initTabs('.fact-btn','fact-')
 initTabs('.eq-btn','eq-')
 initTabs('.prog-btn','prog-')
 initTabs('.sc-btn','sc-')
+initTabs('.wk-btn','wk-')
 
 // ── Сайдбар ───────────────────────────────────────────────────────────────────
 
-function saveSidebarOrder() {
-  const order = Array.from(document.getElementById('sidebar')!.querySelectorAll<HTMLElement>('.tab-btn')).map(b=>b.dataset.tab!)
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(order))
-}
-function restoreSidebarOrder() {
-  const saved = localStorage.getItem(STORAGE_KEY)
-  if (!saved) return
-  const sidebar = document.getElementById('sidebar')!
-  JSON.parse(saved).forEach((tab: string) => {
-    const btn = sidebar.querySelector<HTMLElement>(`[data-tab="${tab}"]`)
-    if (btn) sidebar.appendChild(btn)
-  })
-}
-
 function initSidebar() {
-  restoreSidebarOrder()
   const sidebar = document.getElementById('sidebar')!
 
-  // Клики по вкладкам
   sidebar.querySelectorAll<HTMLElement>('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       sidebar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
@@ -931,19 +941,6 @@ function initSidebar() {
       document.getElementById('tab-' + btn.dataset.tab!)?.classList.add('active')
     })
   })
-
-  // SortableJS — работает и с мышью, и с тачем
-  const SortableLib = (window as any).Sortable
-  if (SortableLib) {
-    new SortableLib(sidebar, {
-      animation: 200,
-      ghostClass: 'drag-over',
-      chosenClass: 'dragging',
-      delay: 150,            // задержка перед началом drag
-      delayOnTouchOnly: true, // задержка только на touch, мышь реагирует сразу
-      onEnd: () => { saveSidebarOrder(); renderDashboard() }
-    })
-  }
 }
 initSidebar()
 
