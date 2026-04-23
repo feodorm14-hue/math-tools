@@ -2,7 +2,17 @@ import katex from 'katex'
 
 // ── Авторизация ───────────────────────────────────────────────────────────────
 
-const AUTH_KEY = 'mi-auth'
+const AUTH_KEY   = 'mi-auth'
+const GUEST_KEY  = 'mi-guest-until'   // timestamp истечения гостевого доступа
+const GUEST_MS   = 24 * 60 * 60 * 1000  // 24 часа
+
+function isGuestValid(): boolean {
+  const until = localStorage.getItem(GUEST_KEY)
+  if (!until) return false
+  if (Date.now() < parseInt(until)) return true
+  localStorage.removeItem(GUEST_KEY)   // истёк — чистим
+  return false
+}
 
 // ── Пользователи ──────────────────────────────────────────────────────────────
 // Добавляй/удаляй строки сюда, чтобы управлять доступом
@@ -17,7 +27,7 @@ const USERS: { username: string; password: string }[] = [
 // Разделы доступные без авторизации
 const FREE_TABS = new Set(['home', 'power', 'fraction', 'geometry', 'formulas'])
 
-function isLoggedIn() { return localStorage.getItem(AUTH_KEY) === 'ok' }
+function isLoggedIn() { return localStorage.getItem(AUTH_KEY) === 'ok' || isGuestValid() }
 function canAccess(id: string) { return isLoggedIn() || FREE_TABS.has(id) }
 
 // Обновить визуальную блокировку сайдбара и дашборда после смены auth
@@ -35,15 +45,27 @@ function refreshAccessState() {
 
 function updateAuthBtn() {
   const btn = document.getElementById('authBtn')!
-  const loggedIn = localStorage.getItem(AUTH_KEY) === 'ok'
-  btn.textContent = loggedIn ? '✅ Выйти' : 'Войти'
-  btn.classList.toggle('logged-in', loggedIn)
+  if (localStorage.getItem(AUTH_KEY) === 'ok') {
+    btn.textContent = '✅ Выйти'
+    btn.classList.add('logged-in')
+    btn.classList.remove('guest-in')
+  } else if (isGuestValid()) {
+    const until = parseInt(localStorage.getItem(GUEST_KEY)!)
+    const hoursLeft = Math.ceil((until - Date.now()) / 3600000)
+    btn.textContent = `👤 Гость (${hoursLeft}ч)`
+    btn.classList.add('guest-in')
+    btn.classList.remove('logged-in')
+  } else {
+    btn.textContent = 'Войти'
+    btn.classList.remove('logged-in', 'guest-in')
+  }
 }
 
 ;(window as any).toggleLoginPopup = () => {
-  if (localStorage.getItem(AUTH_KEY) === 'ok') {
-    // уже вошёл — выходим
+  if (isLoggedIn()) {
+    // уже вошёл (или гость) — выходим
     localStorage.removeItem(AUTH_KEY)
+    localStorage.removeItem(GUEST_KEY)
     updateAuthBtn()
     refreshAccessState()
     return
@@ -53,6 +75,16 @@ function updateAuthBtn() {
   if (!overlay.classList.contains('hidden')) {
     setTimeout(() => (document.getElementById('login-username') as HTMLInputElement)?.focus(), 50)
   }
+}
+
+;(window as any).loginAsGuest = () => {
+  localStorage.setItem(GUEST_KEY, String(Date.now() + GUEST_MS))
+  const overlay = document.getElementById('login-overlay')!
+  overlay.style.transition = 'opacity 0.2s'
+  overlay.style.opacity = '0'
+  setTimeout(() => { overlay.classList.add('hidden'); overlay.style.opacity = '' }, 200)
+  updateAuthBtn()
+  refreshAccessState()
 }
 
 ;(window as any).closeLoginPopup = (e: MouseEvent) => {
