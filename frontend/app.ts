@@ -5,6 +5,25 @@ import katex from 'katex'
 const AUTH_KEY = 'mi-auth'
 const PASSWORD = 'math2026'   // ← пароль меняй здесь
 
+// Разделы доступные без авторизации
+const FREE_TABS = new Set(['home', 'power', 'fraction', 'geometry', 'formulas'])
+
+function isLoggedIn() { return localStorage.getItem(AUTH_KEY) === 'ok' }
+function canAccess(id: string) { return isLoggedIn() || FREE_TABS.has(id) }
+
+// Обновить визуальную блокировку сайдбара и дашборда после смены auth
+function refreshAccessState() {
+  renderDashboard()
+  document.querySelectorAll<HTMLElement>('.tab-btn[data-tab]').forEach(btn => {
+    btn.classList.toggle('tab-locked', !canAccess(btn.dataset.tab!))
+  })
+  // Если текущая вкладка стала недоступна — вернуть на главную
+  const activeTab = document.querySelector<HTMLElement>('.tab-btn.active')?.dataset.tab
+  if (activeTab && !canAccess(activeTab)) {
+    ;(window as any).goToTab('home')
+  }
+}
+
 function updateAuthBtn() {
   const btn = document.getElementById('authBtn')!
   const loggedIn = localStorage.getItem(AUTH_KEY) === 'ok'
@@ -17,6 +36,7 @@ function updateAuthBtn() {
     // уже вошёл — выходим
     localStorage.removeItem(AUTH_KEY)
     updateAuthBtn()
+    refreshAccessState()
     return
   }
   const overlay = document.getElementById('login-overlay')!
@@ -43,6 +63,7 @@ function updateAuthBtn() {
     input.value = ''
     err.textContent = ''
     updateAuthBtn()
+    refreshAccessState()
   } else {
     err.textContent = '❌ Неверный пароль'
     input.value = ''
@@ -119,13 +140,16 @@ function renderDashboard() {
 
   root.innerHTML = `
     <div class="dashboard-grid" id="dashboard-grid">
-      ${cards.map(t => `
-        <div class="dash-card" data-id="${t.id}" style="--card-color:${t.color}">
+      ${cards.map(t => {
+        const locked = !canAccess(t.id)
+        return `
+        <div class="dash-card${locked ? ' dash-locked' : ''}" data-id="${t.id}" style="--card-color:${t.color}">
+          ${locked ? '<span class="dash-lock-icon">🔒</span>' : ''}
           <span class="dash-card-icon">${t.icon}</span>
           <div class="dash-card-name">${t.name}</div>
-          <div class="dash-card-desc">${t.desc}</div>
-        </div>
-      `).join('')}
+          <div class="dash-card-desc">${locked ? 'Требуется вход' : t.desc}</div>
+        </div>`
+      }).join('')}
     </div>
   `
 
@@ -152,6 +176,10 @@ function renderDashboard() {
 renderDashboard()
 
 ;(window as any).goToTab = (id: string) => {
+  if (!canAccess(id)) {
+    ;(window as any).toggleLoginPopup()
+    return
+  }
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
   document.querySelectorAll('.tab').forEach(p => p.classList.remove('active'))
   const btn = document.querySelector<HTMLElement>(`.tab-btn[data-tab="${id}"]`)
@@ -1087,11 +1115,21 @@ function initSidebar() {
   // Клики по вкладкам
   sidebar.querySelectorAll<HTMLElement>('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
+      const id = btn.dataset.tab!
+      if (!canAccess(id)) {
+        ;(window as any).toggleLoginPopup()
+        return
+      }
       sidebar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
       document.querySelectorAll('.tab').forEach(p => p.classList.remove('active'))
       btn.classList.add('active')
-      document.getElementById('tab-' + btn.dataset.tab!)?.classList.add('active')
+      document.getElementById('tab-' + id)?.classList.add('active')
     })
+  })
+
+  // Применить визуальные замки сразу при загрузке
+  sidebar.querySelectorAll<HTMLElement>('.tab-btn[data-tab]').forEach(btn => {
+    btn.classList.toggle('tab-locked', !canAccess(btn.dataset.tab!))
   })
 
   // SortableJS внутри каждой группы

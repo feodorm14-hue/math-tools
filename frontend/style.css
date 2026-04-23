@@ -268,6 +268,8 @@ header::after {
 .tab-btn .tl    { line-height: 1.2; overflow: hidden; text-overflow: ellipsis; }
 .tab-btn.dragging  { opacity: 0.35; cursor: grabbing; }
 .tab-btn.drag-over { border-color: var(--accent); background: var(--accent-light); }
+.tab-btn.tab-locked { opacity: 0.4; cursor: pointer; }
+.tab-btn.tab-locked::after { content: '🔒'; font-size: 0.65rem; margin-left: auto; }
 
 .sidebar-group {
   font-size: 0.64rem;
@@ -495,6 +497,17 @@ button:active { transform: scale(0.97); }
   font-size: 0.8rem;
   color: var(--text-faint);
   line-height: 1.4;
+}
+.dash-card.dash-locked {
+  opacity: 0.45;
+  cursor: pointer;
+  filter: grayscale(40%);
+}
+.dash-lock-icon {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 0.8rem;
 }
 
 /* ── Geo sub-tabs ──────────────────────────────────────────────────────────── */
