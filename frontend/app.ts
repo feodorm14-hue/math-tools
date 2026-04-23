@@ -8,6 +8,7 @@ const AUTH_KEY = 'mi-auth'
 // Добавляй/удаляй строки сюда, чтобы управлять доступом
 const USERS: { username: string; password: string }[] = [
   { username: 'admin',   password: 'math2026' },
+  { username: 'feodor',  password: 'math2026' },
   { username: '5a',      password: 'class5a'  },
   { username: '6b',      password: 'class6b'  },
   { username: '7c',      password: 'class7c'  },
