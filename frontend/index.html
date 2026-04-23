@@ -12,13 +12,13 @@
 </head>
 <body>
 
-  <!-- ══════════ Экран входа ══════════ -->
-  <div id="login-screen">
+  <!-- ══════════ Попап входа ══════════ -->
+  <div id="login-overlay" class="hidden" onclick="closeLoginPopup(event)">
     <div id="login-box">
       <div id="login-logo">🧮</div>
-      <div id="login-title">Maths Instruments</div>
-      <div id="login-sub">Математический инструментарий · 5–7 класс</div>
-      <input id="login-input" type="password" placeholder="Введи пароль…" autocomplete="current-password"
+      <div id="login-title">Вход</div>
+      <div id="login-sub">Введи пароль для доступа</div>
+      <input id="login-input" type="password" placeholder="Пароль…" autocomplete="current-password"
         onkeydown="if(event.key==='Enter') doLogin()" />
       <button id="login-btn" onclick="doLogin()">Войти →</button>
       <div id="login-error"></div>
@@ -33,7 +33,7 @@
       </div>
       <div class="header-controls">
         <button class="dark-toggle" id="darkToggle" aria-label="Тёмная тема" title="Тёмная тема">🌙</button>
-        <button class="dark-toggle" id="logoutBtn" onclick="doLogout()" title="Выйти">🚪</button>
+        <button class="auth-btn" id="authBtn" onclick="toggleLoginPopup()">Войти</button>
         <button class="menu-toggle" id="menuToggle" aria-label="Меню">☰</button>
       </div>
     </div>

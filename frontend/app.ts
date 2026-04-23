@@ -2,15 +2,33 @@ import katex from 'katex'
 
 // ── Авторизация ───────────────────────────────────────────────────────────────
 
-const AUTH_KEY  = 'mi-auth'
-const PASSWORD  = 'math2026'   // ← пароль меняй здесь
+const AUTH_KEY = 'mi-auth'
+const PASSWORD = 'math2026'   // ← пароль меняй здесь
 
-function checkAuth() {
-  const screen = document.getElementById('login-screen')!
+function updateAuthBtn() {
+  const btn = document.getElementById('authBtn')!
+  const loggedIn = localStorage.getItem(AUTH_KEY) === 'ok'
+  btn.textContent = loggedIn ? '✅ Выйти' : 'Войти'
+  btn.classList.toggle('logged-in', loggedIn)
+}
+
+;(window as any).toggleLoginPopup = () => {
   if (localStorage.getItem(AUTH_KEY) === 'ok') {
-    screen.classList.add('hidden')
+    // уже вошёл — выходим
+    localStorage.removeItem(AUTH_KEY)
+    updateAuthBtn()
+    return
   }
-  // иначе экран остаётся виден
+  const overlay = document.getElementById('login-overlay')!
+  overlay.classList.toggle('hidden')
+  if (!overlay.classList.contains('hidden')) {
+    setTimeout(() => (document.getElementById('login-input') as HTMLInputElement)?.focus(), 50)
+  }
+}
+
+;(window as any).closeLoginPopup = (e: MouseEvent) => {
+  if ((e.target as HTMLElement).id === 'login-overlay')
+    document.getElementById('login-overlay')!.classList.add('hidden')
 }
 
 ;(window as any).doLogin = () => {
@@ -18,26 +36,23 @@ function checkAuth() {
   const err   = document.getElementById('login-error')!
   if (input.value === PASSWORD) {
     localStorage.setItem(AUTH_KEY, 'ok')
-    const screen = document.getElementById('login-screen')!
-    screen.style.transition = 'opacity 0.3s'
-    screen.style.opacity = '0'
-    setTimeout(() => screen.classList.add('hidden'), 300)
+    const overlay = document.getElementById('login-overlay')!
+    overlay.style.transition = 'opacity 0.2s'
+    overlay.style.opacity = '0'
+    setTimeout(() => { overlay.classList.add('hidden'); overlay.style.opacity = '' }, 200)
+    input.value = ''
     err.textContent = ''
+    updateAuthBtn()
   } else {
     err.textContent = '❌ Неверный пароль'
     input.value = ''
     input.focus()
-    input.style.borderColor = '#fc8181'
+    input.style.borderColor = 'var(--red)'
     setTimeout(() => { input.style.borderColor = '' }, 1200)
   }
 }
 
-;(window as any).doLogout = () => {
-  localStorage.removeItem(AUTH_KEY)
-  location.reload()
-}
-
-checkAuth()
+updateAuthBtn()
 
 // ── Хранилище ─────────────────────────────────────────────────────────────────
 
