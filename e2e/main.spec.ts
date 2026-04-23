@@ -1,8 +1,12 @@
 import { test, expect, Page } from '@playwright/test'
 
 const URL      = 'https://feodorm14-hue.github.io/math-tools/'
+// должны совпадать с USERS[0] в app.ts
 const USERNAME = 'admin'
 const PASSWORD = 'math2026'
+// второй пользователь для проверки multi-user
+const USERNAME2 = '5a'
+const PASSWORD2 = 'class5a'
 
 // ── helper ────────────────────────────────────────────────────────────────────
 async function loginAs(page: Page, username = USERNAME, password = PASSWORD) {
@@ -45,6 +49,11 @@ test('неверный логин показывает ошибку', async ({ p
   await page.locator('#login-input').fill(PASSWORD)
   await page.locator('#login-btn').click()
   await expect(page.locator('#login-error')).toContainText('Неверный логин')
+})
+
+test('второй пользователь (5a) может войти', async ({ page }) => {
+  await loginAs(page, USERNAME2, PASSWORD2)
+  await expect(page.locator('#authBtn')).toContainText('Выйти')
 })
 
 test('верные логин+пароль закрывают попап и меняют кнопку', async ({ page }) => {

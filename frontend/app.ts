@@ -2,9 +2,16 @@ import katex from 'katex'
 
 // ── Авторизация ───────────────────────────────────────────────────────────────
 
-const AUTH_KEY  = 'mi-auth'
-const USERNAME  = 'admin'      // ← логин меняй здесь
-const PASSWORD  = 'math2026'   // ← пароль меняй здесь
+const AUTH_KEY = 'mi-auth'
+
+// ── Пользователи ──────────────────────────────────────────────────────────────
+// Добавляй/удаляй строки сюда, чтобы управлять доступом
+const USERS: { username: string; password: string }[] = [
+  { username: 'admin',   password: 'math2026' },
+  { username: '5a',      password: 'class5a'  },
+  { username: '6b',      password: 'class6b'  },
+  { username: '7c',      password: 'class7c'  },
+]
 
 // Разделы доступные без авторизации
 const FREE_TABS = new Set(['home', 'power', 'fraction', 'geometry', 'formulas'])
@@ -57,8 +64,12 @@ function updateAuthBtn() {
   const passInput = document.getElementById('login-input')    as HTMLInputElement
   const err       = document.getElementById('login-error')!
 
-  const okUser = userInput.value.trim() === USERNAME
-  const okPass = passInput.value === PASSWORD
+  const login    = userInput.value.trim()
+  const password = passInput.value
+
+  const matchedUser = USERS.find(u => u.username === login)
+  const okUser = !!matchedUser
+  const okPass = okUser && matchedUser!.password === password
 
   if (okUser && okPass) {
     localStorage.setItem(AUTH_KEY, 'ok')
@@ -74,7 +85,7 @@ function updateAuthBtn() {
   } else {
     err.textContent = okUser ? '❌ Неверный пароль' : '❌ Неверный логин или пароль'
     if (!okUser) { userInput.style.borderColor = 'var(--red)'; setTimeout(() => { userInput.style.borderColor = '' }, 1200) }
-    if (!okPass) { passInput.style.borderColor = 'var(--red)'; setTimeout(() => { passInput.style.borderColor = '' }, 1200) }
+    passInput.style.borderColor = 'var(--red)'; setTimeout(() => { passInput.style.borderColor = '' }, 1200)
     passInput.value = ''
     ;(okUser ? passInput : userInput).focus()
   }
