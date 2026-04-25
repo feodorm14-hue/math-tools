@@ -75,7 +75,7 @@ import katex from 'katex'
   // Клавиатура
   document.addEventListener('keydown', (e: KeyboardEvent) => {
     if (document.activeElement?.tagName === 'INPUT') return
-    if (!document.getElementById('tab-home')?.classList.contains('active')) return
+    if (!document.getElementById('tab-calc')?.classList.contains('active')) return
     if ('0123456789'.includes(e.key)) { ;(window as any).calcNum(e.key); return }
     if (e.key === '.') { ;(window as any).calcDot(); return }
     if (e.key === 'Enter' || e.key === '=') { ;(window as any).calcEq(); return }
@@ -111,6 +111,9 @@ document.getElementById('darkToggle')?.addEventListener('click', () => {
 // ── Дашборд ──────────────────────────────────────────────────────────────────
 
 const TOOL_CARDS = [
+  // Основное
+  { id: 'calc',        icon: '🖩',  name: 'Калькулятор',    color: '#667eea', desc: 'Быстрые вычисления' },
+  { id: 'formulas',    icon: '📚', name: 'Формулы',         color: '#a0aec0', desc: 'Библиотека формул' },
   // Числа
   { id: 'gcdlcm',      icon: '🔢', name: 'НОД / НОК',      color: '#76e4f7', desc: 'Делители и кратные' },
   { id: 'divisors',    icon: '÷',  name: 'Делители',        color: '#ed8936', desc: 'Простые числа' },
@@ -135,7 +138,6 @@ const TOOL_CARDS = [
   { id: 'temp',        icon: '🌡️', name: 'Температура',    color: '#f687b3', desc: '°C ↔ °F ↔ K' },
   // Справочник
   { id: 'stats',       icon: '📊', name: 'Статистика',      color: '#9f7aea', desc: 'Среднее, медиана, мода' },
-  { id: 'formulas',    icon: '📚', name: 'Формулы',         color: '#a0aec0', desc: 'Библиотека формул' },
 ]
 
 function renderDashboard() {
@@ -150,38 +152,20 @@ function renderDashboard() {
       })
     : TOOL_CARDS
 
+  // Порядок всегда = порядок TOOL_CARDS (= порядок сайдбара), без drag-and-drop
   root.innerHTML = `
     <div class="dashboard-grid" id="dashboard-grid">
-      ${cards.map(t => {
-        return `
+      ${TOOL_CARDS.map(t => `
         <div class="dash-card" data-id="${t.id}" style="--card-color:${t.color}">
           <span class="dash-card-icon">${t.icon}</span>
           <div class="dash-card-name">${t.name}</div>
-          <div class="dash-card-desc">${t.desc}</div>
-        </div>`
-      }).join('')}
+        </div>`).join('')}
     </div>
   `
 
   root.querySelectorAll<HTMLElement>('.dash-card').forEach(card => {
     card.addEventListener('click', () => goToTab(card.dataset.id!))
   })
-
-  const SortableLib = (window as any).Sortable
-  if (SortableLib) {
-    new SortableLib(document.getElementById('dashboard-grid'), {
-      animation: 200,
-      delay: 150,
-      delayOnTouchOnly: true,
-      onEnd: () => {
-        // Сохраняем порядок плиток дашборда
-        const dashOrder = Array.from(
-          document.querySelectorAll<HTMLElement>('#dashboard-grid .dash-card')
-        ).map(c => c.dataset.id!)
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(dashOrder))
-      }
-    })
-  }
 }
 renderDashboard()
 

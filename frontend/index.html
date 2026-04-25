@@ -28,8 +28,12 @@
 
   <div class="layout">
   <nav class="sidebar" id="sidebar">
-    <button class="tab-btn active" data-tab="home"><span class="ti">🏠</span><span class="tl">Главная</span></button>
-    <button class="tab-btn" data-tab="formulas"><span class="ti">📚</span><span class="tl">Формулы</span></button>
+    <div class="sidebar-group">Основное</div>
+    <div class="sidebar-group-items" data-group="main">
+      <button class="tab-btn active" data-tab="home"><span class="ti">🏠</span><span class="tl">Главная</span></button>
+      <button class="tab-btn" data-tab="calc"><span class="ti">🖩</span><span class="tl">Калькулятор</span></button>
+      <button class="tab-btn" data-tab="formulas"><span class="ti">📚</span><span class="tl">Формулы</span></button>
+    </div>
 
     <div class="sidebar-group">Числа</div>
     <div class="sidebar-group-items" data-group="numbers">
@@ -75,8 +79,16 @@
 
     <!-- ══════════ Главная ══════════ -->
     <section id="tab-home" class="tab active">
+      <div id="home-welcome">
+        <p>Привет! Это главная страница проекта «Math Tools» от автора <b>feodor_m14</b>. Данный сайт представляет собой набор инструментов для решения математических задач. На сайте также есть возможность отработать темы в тренировке или изучить новые с помощью чат-бота. Приятного и полезного пользования!</p>
+      </div>
+      <div id="dashboard-root"></div>
+    </section>
 
-      <!-- ── Калькулятор ── -->
+    <!-- ══════════ Калькулятор ══════════ -->
+    <section id="tab-calc" class="tab">
+      <h2>Калькулятор</h2>
+      <p class="section-desc">Обычный калькулятор для быстрых вычислений. Работает и с клавиатуры.</p>
       <div id="calc-widget">
         <div id="calc-display">
           <div id="calc-expr"></div>
@@ -84,7 +96,7 @@
         </div>
         <div id="calc-keys">
           <button class="ck ck-fn" onclick="calcClear()">C</button>
-          <button class="ck ck-fn" onclick="calcSign()">+/-</button>
+          <button class="ck ck-fn" onclick="calcSign()">+/−</button>
           <button class="ck ck-fn" onclick="calcPercent()">%</button>
           <button class="ck ck-op" onclick="calcOp('/')">÷</button>
 
@@ -108,8 +120,6 @@
           <button class="ck ck-eq" onclick="calcEq()">=</button>
         </div>
       </div>
-
-      <div id="dashboard-root"></div>
     </section>
 
     <!-- ══════════ Пропорция ══════════ -->
