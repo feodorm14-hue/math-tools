@@ -1077,7 +1077,7 @@ function showTestResults(section: string) {
 function initTabs(btnSel: string, prefix: string) {
   document.querySelectorAll<HTMLElement>(btnSel).forEach(btn => {
     btn.addEventListener('click', () => {
-      const key = btn.dataset.tab??btn.dataset.geo??btn.dataset.pct??btn.dataset.pow??btn.dataset.units??btn.dataset.temp??btn.dataset.fact!
+      const key = btn.dataset[prefix.slice(0, -1)]!
       document.querySelectorAll(btnSel).forEach(b=>b.classList.remove('active'))
       document.querySelectorAll(`[id^="${prefix}"]`).forEach(p=>p.classList.remove('active'))
       btn.classList.add('active')
